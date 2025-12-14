@@ -32,3 +32,13 @@ strict_optional = true
 ignore_missing_imports = true  # skip type-checking for external packages
 warn_unused_ignores = true
 warn_return_any = true
+
+[tool.pydocstyle]
+convention = "google"
+add-ignore = ["D212"]
+add-select = ["D213"]
+
+[tool.black]
+
+[tool.ruff]
+fix = true
