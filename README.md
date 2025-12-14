@@ -1,4 +1,4 @@
-# Chronicle  
+# Chronicle
 A lightweight, self-hostable platform for organising collections, events, signatures, photoshoots, selfies, and people.
 
 ---
