@@ -26,7 +26,6 @@ build-backend = "hatchling.build"
 include = ["app"]
 
 [tool.mypy]
-python_version = 3.14
 disallow_untyped_defs = true   # fail if a function has no type hints
 disallow_incomplete_defs = true
 strict_optional = true
