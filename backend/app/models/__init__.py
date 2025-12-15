@@ -1,9 +1,5 @@
 """Model module initialization."""
+from .base import Base
+from .item import Item
 
-from sqlalchemy.orm import DeclarativeBase
-
-
-class Base(DeclarativeBase):
-    """Base model class."""
-
-    pass
+__all__ = ["Base", "Item"]
