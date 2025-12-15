@@ -12,8 +12,7 @@ def create_app() -> FastAPI:
         FastAPI: The configured FastAPI application instance.
     """
     app = FastAPI(
-        title="Chronicle Backend",
-        openapi_url="/api/openapi.json",
+        title="Menagerist Backend"
     )
 
     app.include_router(api_router, prefix="/api")
@@ -25,4 +24,4 @@ def create_app() -> FastAPI:
     return app
 
 
-chronicle = create_app()
+menagerist = create_app()

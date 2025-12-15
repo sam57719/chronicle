@@ -1,8 +1,8 @@
 [project]
-name = "chronicle"
+name = "menagerist"
 version = "0.0.0-alpha"
-summary = "Chronicle - Collection Manager"
-description = "A lightweight, self-hostable platform for organising collections, events, signatures, photoshoots, selfies, and people."
+summary = "Menagerist - Collection Manager"
+description = "A lightweight, self-hostable platform for organising collections of items, events, and people."
 readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [
