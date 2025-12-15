@@ -8,7 +8,29 @@ from app.schemas.item import ItemRead, ItemCreate, ItemUpdate
 from app.services.item_service import ItemService
 from ..deps import get_async_db_session  # your async session dependency
 
-items_router = APIRouter(prefix="/items", tags=["items"])
+ITEM_NOT_FOUND_RESPONSE = {
+    404: {
+        "description": "Item not found",
+        "content": {
+            "application/json": {
+                "example": {"detail": "Item not found"},
+            },
+        },
+    },
+}
+
+class ItemNotFound(HTTPException):
+    """Raised when an item cannot be found."""
+
+    def __init__(self) -> None:
+        super().__init__(status_code=status.HTTP_404_NOT_FOUND, detail="Item not found")
+
+
+items_router = APIRouter(
+    prefix="/items",
+    tags=["items"],
+    responses=ITEM_NOT_FOUND_RESPONSE,
+)
 
 
 def get_item_service(db: AsyncSession = Depends(get_async_db_session)) -> ItemService:
@@ -31,9 +53,7 @@ async def get_item(
     """Retrieve a single item by ID."""
     item = await service.get_item(item_id)
     if item is None:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="Item not found"
-        )
+        raise ItemNotFound()
     return item
 
 
@@ -52,17 +72,15 @@ async def update_item(
     """Update an existing item."""
     item = await service.update_item(item_id, data)
     if item is None:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="Item not found"
-        )
+        raise ItemNotFound()
     return item
 
 
 @items_router.delete("/{item_id}", status_code=status.HTTP_204_NO_CONTENT)
-async def delete_item(item_id: int, service: ItemService = Depends(get_item_service)) -> None:
+async def delete_item(
+    item_id: int, service: ItemService = Depends(get_item_service)
+) -> None:
     """Delete an item."""
     deleted = await service.delete_item(item_id)
     if not deleted:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="Item not found"
-        )
+        raise ItemNotFound()
