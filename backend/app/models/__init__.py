@@ -1,4 +1,5 @@
 """Model module initialization."""
+
 from .base import Base
 from .item import Item
 

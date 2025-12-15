@@ -19,10 +19,12 @@ ITEM_NOT_FOUND_RESPONSE = {
     },
 }
 
+
 class ItemNotFound(HTTPException):
     """Raised when an item cannot be found."""
 
     def __init__(self) -> None:
+        """Initialize ItemNotFound with a custom detail message."""
         super().__init__(status_code=status.HTTP_404_NOT_FOUND, detail="Item not found")
 
 
