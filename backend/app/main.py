@@ -1,7 +1,8 @@
-"""Main application module for the Chronicle backend."""
+"""Main application module for the Menagerist backend."""
 
 from fastapi import FastAPI
-from app.api.routers import api_router
+from .api.routers import api_router
+from .core.lifespan import lifespan
 
 
 def create_app() -> FastAPI:
@@ -11,17 +12,15 @@ def create_app() -> FastAPI:
     Returns:
         FastAPI: The configured FastAPI application instance.
     """
-    app = FastAPI(
-        title="Menagerist Backend"
-    )
+    fastapi_app = FastAPI(title="Menagerist Backend", lifecycle=lifespan)
 
-    app.include_router(api_router, prefix="/api")
+    fastapi_app.include_router(api_router, prefix="/api")
 
-    app.openapi_tags = [
+    fastapi_app.openapi_tags = [
         {"name": "items", "description": "Operations related to items."},
     ]
 
-    return app
+    return fastapi_app
 
 
-menagerist = create_app()
+app = create_app()
