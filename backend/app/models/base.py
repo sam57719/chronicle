@@ -1,3 +1,5 @@
+"""Base model class."""
+
 from sqlalchemy.orm import DeclarativeBase
 
 

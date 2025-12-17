@@ -41,7 +41,7 @@ warn_return_any = true
 
 [tool.pydocstyle]
 convention = "google"
-add-ignore = ["D212"]
+add-ignore = ["D212", "D104", "D415"]
 add-select = ["D213"]
 
 [tool.black]

@@ -1,3 +1,5 @@
+"""alembic environment configuration"""
+
 from __future__ import annotations
 
 import asyncio
@@ -46,6 +48,7 @@ def run_migrations_offline() -> None:
 
 
 def do_run_migrations(connection: Connection) -> None:
+    """Run migrations in 'online' mode."""
     context.configure(
         connection=connection,
         target_metadata=target_metadata,

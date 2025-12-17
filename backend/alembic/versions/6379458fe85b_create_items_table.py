@@ -1,4 +1,5 @@
-"""create items table
+"""
+create items table
 
 Revision ID: 6379458fe85b
 Revises:
