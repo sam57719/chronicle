@@ -31,12 +31,12 @@ This combination keeps the core logic independent from technical details.
 
 ## Layers and Dependency Direction
 
-Entrypoints  
-↓  
-Infrastructure  
-↓  
-Application  
-↓  
+Entrypoints
+↓
+Infrastructure
+↓
+Application
+↓
 Domain
 
 Rules:
