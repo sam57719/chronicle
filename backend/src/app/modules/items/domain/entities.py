@@ -1,7 +1,7 @@
 """Domain entities for the Items module."""
 
 from dataclasses import dataclass, field
-from app.modules.items.domain.value_objects import ItemID
+from .value_objects import ItemID
 
 
 @dataclass(frozen=True, slots=True)
