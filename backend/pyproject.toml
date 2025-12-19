@@ -28,7 +28,7 @@ requires = [ "hatchling>=0.21.2"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
-include = ["src/menagerist/"]
+packages = ["src/app"]
 
 [tool.mypy]
 disallow_untyped_defs = true   # fail if a function has no type hints

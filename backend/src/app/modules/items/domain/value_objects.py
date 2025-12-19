@@ -2,7 +2,7 @@
 
 from dataclasses import dataclass
 
-from app.shared.domain.domain_id import DomainID
+from app.shared.domain.value_objects import DomainID
 
 
 @dataclass(frozen=True, slots=True)

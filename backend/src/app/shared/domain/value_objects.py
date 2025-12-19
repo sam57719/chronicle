@@ -5,6 +5,7 @@ from dataclasses import dataclass, field
 from typing import Callable
 from uuid import UUID, uuid7
 
+from app.shared.domain.exceptions import InvalidDomainId
 
 _UUID_FACTORY: Callable[[], UUID] = uuid7
 
@@ -19,10 +20,22 @@ class DomainID:
 
     value: UUID = field(default_factory=_UUID_FACTORY)
 
+    def __post_init__(self) -> None:
+        """Validate the DomainID."""
+        if not isinstance(self.value, UUID):
+            raise InvalidDomainId(id_class=type(self), value=str(self.value))
+
     @classmethod
     def from_str(cls, uuid_str: str) -> DomainID:
-        """Create a DomainID from a string representation of a UUID."""
-        return cls(value=UUID(uuid_str))
+        """
+        Create a DomainID from a string.
+
+        Catches invalid strings and raises our domain-specific exception.
+        """
+        try:
+            return cls(value=UUID(uuid_str))
+        except ValueError:
+            raise InvalidDomainId(id_class=cls, value=uuid_str)
 
     def __str__(self) -> str:
         """Return a string representation of the DomainID."""
