@@ -1,0 +1,50 @@
+[project]
+name = "menagerist"
+version = "0.0.0-alpha"
+summary = "Menagerist - Collection Manager"
+description = "A lightweight, self-hostable platform for organising collections of items, events, and people."
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "aiosqlite>=0.22.0",
+    "alembic>=1.17.2",
+    "asyncpg>=0.31.0",
+    "fastapi>=0.124.4",
+    "pydantic-settings>=2.12.0",
+    "sqlalchemy[asyncio]>=2.0.45",
+    "uvicorn[standard]>=0.38.0",
+]
+
+[dependency-groups]
+dev = [
+    "black>=25.12.0",
+    "mypy>=1.19.1",
+    "pre-commit>=4.5.0",
+    "pydocstyle>=6.3.0",
+    "ruff>=0.14.9",
+]
+
+[build-system]
+requires = [ "hatchling>=0.21.2"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+include = ["app"]
+
+[tool.mypy]
+disallow_untyped_defs = true   # fail if a function has no type hints
+disallow_incomplete_defs = true
+strict_optional = true
+ignore_missing_imports = true  # skip type-checking for external packages
+warn_unused_ignores = true
+warn_return_any = true
+
+[tool.pydocstyle]
+convention = "google"
+add-ignore = ["D212"]
+add-select = ["D213"]
+
+[tool.black]
+
+[tool.ruff]
+fix = true
