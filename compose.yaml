@@ -4,6 +4,6 @@ services:
     image: menagerist-backend
     container_name: menagerist-backend
     restart: unless-stopped
-    build: .
+    build: backend
     ports:
       - "8000:8000"
