@@ -1,11 +1,10 @@
 <script lang="ts">
-	import favicon from '$lib/assets/favicon.svg';
-
-	let { children } = $props();
+	let { children } = $props(); // Svelte 5 snippet syntax
 </script>
 
-<svelte:head>
-	<link rel="icon" href={favicon} />
-</svelte:head>
+<nav style="padding: 1rem; border-bottom: 1px solid #ccc; display: flex; gap: 1rem;">
+	<a href="/">Home</a>
+	<a href="/items">Items</a>
+</nav>
 
 {@render children()}
