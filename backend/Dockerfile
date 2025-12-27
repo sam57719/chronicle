@@ -1,5 +1,5 @@
 ## ------------------------------- Builder Stage ------------------------------ ##
-FROM python:3.14.2-bookworm AS builder
+FROM python:3.14-bookworm AS builder
 
 RUN apt-get update && apt-get install --no-install-recommends -y \
         build-essential && \
@@ -27,7 +27,7 @@ COPY src/ src/
 RUN uv pip install .
 
 ## ------------------------------- Production Stage ------------------------------ ##
-FROM python:3.14.2-slim-bookworm AS runtime
+FROM python:3.14-slim-bookworm AS runtime
 
 # Create a non-root user for security
 RUN useradd -m appuser
