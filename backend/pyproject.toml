@@ -3,7 +3,6 @@ name = "menagerist"
 version = "0.0.0-alpha"
 summary = "Menagerist - Collection Manager"
 description = "A lightweight, self-hostable platform for organising collections of items, events, and people."
-readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [
     "alembic>=1.17.2",

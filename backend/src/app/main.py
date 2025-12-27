@@ -1,1 +1,0 @@
-"""Main module for the Menagerist application."""

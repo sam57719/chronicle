@@ -1,0 +1,9 @@
+---
+services:
+  backend:
+    image: menagerist-backend
+    container_name: menagerist-backend
+    restart: unless-stopped
+    build: .
+    ports:
+      - "8000:8000"
