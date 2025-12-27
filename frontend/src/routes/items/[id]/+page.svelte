@@ -1,6 +1,7 @@
 <script lang="ts">
-    import { page } from '$app/state'; // Svelte 5 way to access URL params
+    import { page } from '$app/state';
     import { onMount } from 'svelte';
+    import { ArrowLeft, Package, Info } from '@lucide/svelte';
 
     let item = $state<any>(null);
     let error = $state<string | null>(null);
@@ -28,27 +29,46 @@
     <title>{item ? item.name : 'Loading...'} | Menagerist</title>
 </svelte:head>
 
-<main>
-    <a href="/items">← Back to List</a>
+<div class="max-w-2xl mx-auto space-y-6">
+    <!-- Back Navigation -->
+    <a href="/items" class="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
+        <ArrowLeft size={16} />
+        Back to List
+    </a>
 
     {#if isLoading}
-        <p>Loading details...</p>
+        <div class="flex items-center gap-3 text-muted-foreground animate-pulse">
+            <Package class="animate-bounce" />
+            <span>Loading item details...</span>
+        </div>
     {:else if error}
-        <p class="error">{error}</p>
+        <div class="p-4 rounded-lg bg-destructive/10 border border-destructive/20 text-destructive flex items-center gap-3">
+            <Info size={20} />
+            <p class="font-bold">{error}</p>
+        </div>
     {:else if item}
-        <article>
-            <h1>{item.name}</h1>
-            <p class="desc">{item.description ?? 'No description provided.'}</p>
-            <hr />
-            <p class="id-tag">ID: <code>{item.id}</code></p>
+        <article class="bg-card text-card-foreground rounded-xl border border-border p-8 shadow-sm">
+            <div class="space-y-2 mb-6">
+                <h1 class="text-4xl font-extrabold tracking-tight">{item.name}</h1>
+                <p class="text-xl text-muted-foreground leading-relaxed">
+                    {item.description ?? 'No description provided.'}
+                </p>
+            </div>
+
+            <div class="pt-6 border-t border-border flex items-center justify-between">
+                <div class="flex flex-col gap-1">
+                    <span class="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Domain Identifier</span>
+                    <code class="text-sm font-mono bg-muted px-2 py-1 rounded-md text-foreground">
+                        {item.id}
+                    </code>
+                </div>
+
+                <!-- Placeholder for future actions (Edit/Delete) -->
+                <div class="flex gap-2">
+                    <div class="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
+                    <span class="text-[10px] text-muted-foreground uppercase font-bold">Active Record</span>
+                </div>
+            </div>
         </article>
     {/if}
-</main>
-
-<style>
-    main { font-family: system-ui, sans-serif; max-width: 600px; margin: 2rem auto; padding: 1rem; }
-    .desc { font-size: 1.2rem; color: #444; }
-    .id-tag { color: #888; font-size: 0.8rem; }
-    .error { color: #ff3e00; font-weight: bold; }
-    code { background: #eee; padding: 0.2rem 0.4rem; border-radius: 4px; }
-</style>
+</div>
