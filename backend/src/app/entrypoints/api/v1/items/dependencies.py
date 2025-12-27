@@ -1,5 +1,6 @@
 """Dependency injection for the items module."""
 
+from fastapi import Depends
 from functools import lru_cache
 from app.features.items.application.services import ItemService
 from app.features.items.infrastructure.repositories import InMemoryItemRepository
@@ -7,16 +8,12 @@ from app.features.items.infrastructure.repositories import InMemoryItemRepositor
 
 @lru_cache
 def get_item_repository() -> InMemoryItemRepository:
-    """
-    Returns a singleton instance of the repository.
-
-    LRU Cache ensures we don't lose data between requests
-    while using the In-Memory implementation.
-    """
+    """Provides a single instance of the ItemRepository."""
     return InMemoryItemRepository()
 
 
-def get_item_service() -> ItemService:
-    """Injects the repository into the service."""
-    repo = get_item_repository()
+def get_item_service(
+    repo: InMemoryItemRepository = Depends(get_item_repository),
+) -> ItemService:
+    """Provides a service instance with the given repository."""
     return ItemService(repo)
