@@ -1,7 +1,8 @@
 """Dependency injection for the items module."""
 
-from fastapi import Depends
 from functools import lru_cache
+
+from fastapi import Depends
 
 from app.entrypoints.api.dependencies import get_uow
 from app.features.items.application.services import ItemService

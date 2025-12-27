@@ -1,6 +1,7 @@
 """Domain entities for the Items module."""
 
 from dataclasses import dataclass, field
+
 from .value_objects import ItemID
 
 

@@ -34,12 +34,19 @@ build-backend = "hatchling.build"
 packages = ["src/app"]
 
 [tool.mypy]
-disallow_untyped_defs = true   # fail if a function has no type hints
+disallow_untyped_defs = true
 disallow_incomplete_defs = true
-strict_optional = true
-ignore_missing_imports = true  # skip type-checking for external packages
+strict = true
+ignore_missing_imports = true
 warn_unused_ignores = true
 warn_return_any = true
+show_error_codes = true
+explicit_package_bases = true
+namespace_packages = true
+
+mypy_path = "src"
+files = ["src/app", "tests"]
+
 
 [tool.pydocstyle]
 convention = "google"
@@ -50,6 +57,17 @@ add-select = ["D213"]
 
 [tool.ruff]
 fix = true
+
+[tool.ruff.lint]
+# Automatically remove unused imports
+# Enable the isort (I) and Pyflakes (F) rules
+select = ["E", "F", "I", "UP"]
+fixable = ["ALL"]
+ignore = []
+
+[tool.ruff.lint.isort]
+known-first-party = ["app"]
+section-order = ["future", "standard-library", "third-party", "first-party", "local-folder"]
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"

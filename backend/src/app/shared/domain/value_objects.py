@@ -1,8 +1,8 @@
 """Reusable Domain ID Value Object."""
 
+from collections.abc import Callable
 from dataclasses import dataclass, field
-
-from typing import Callable
+from typing import Self
 from uuid import UUID, uuid7
 
 from app.shared.domain.exceptions import InvalidDomainId
@@ -26,7 +26,7 @@ class DomainID:
             raise InvalidDomainId(id_class=type(self), value=str(self.value))
 
     @classmethod
-    def from_str(cls, uuid_str: str) -> DomainID:
+    def from_str(cls, uuid_str: str) -> Self:
         """
         Create a DomainID from a string.
 

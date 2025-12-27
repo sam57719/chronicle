@@ -1,12 +1,15 @@
+from collections.abc import Iterator
+
 import pytest
 from fastapi.testclient import TestClient
+
 from app.entrypoints.api.main import app
 from app.entrypoints.api.v1.items.dependencies import get_item_repository
 from app.features.items.infrastructure.repositories import InMemoryItemRepository
 
 
 @pytest.fixture
-def client():
+def client() -> Iterator[TestClient]:
     """Provides a TestClient and clears the repository before each test."""
     # 1. Create a fresh repository instance
     test_repo = InMemoryItemRepository()
@@ -21,7 +24,7 @@ def client():
     app.dependency_overrides.clear()
 
 
-def test_create_item_success(client):
+def test_create_item_success(client: TestClient) -> None:
     # Act
     response = client.post(
         "/api/v1/items/",
@@ -36,7 +39,7 @@ def test_create_item_success(client):
     assert data["description"] == "TOS - The Menagerie"
 
 
-def test_create_item_invalid_data(client):
+def test_create_item_invalid_data(client: TestClient) -> None:
     # Act: Send empty name (which our Domain/Schema forbids)
     response = client.post("/api/v1/items/", json={"name": ""})
 
@@ -45,7 +48,7 @@ def test_create_item_invalid_data(client):
     assert response.status_code in (400, 422)
 
 
-def test_list_items_returns_list(client):
+def test_list_items_returns_list(client: TestClient) -> None:
     # Arrange: Create an item first
     client.post("/api/v1/items/", json={"name": "Item 1"})
 
@@ -60,7 +63,7 @@ def test_list_items_returns_list(client):
     assert data[0]["name"] == "Item 1"
 
 
-def test_get_specific_item(client):
+def test_get_specific_item(client: TestClient) -> None:
     # Arrange: Create an item to get its ID
     created = client.post("/api/v1/items/", json={"name": "Specific Item"}).json()
     item_id = created["id"]
@@ -73,7 +76,7 @@ def test_get_specific_item(client):
     assert response.json()["name"] == "Specific Item"
 
 
-def test_get_nonexistent_item_returns_404(client):
+def test_get_nonexistent_item_returns_404(client: TestClient) -> None:
     # Act: Use a valid UUID format that doesn't exist
     fake_id = "019b388f-4d65-7325-8c6a-b13255595291"
     response = client.get(f"/api/v1/items/{fake_id}")

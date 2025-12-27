@@ -1,6 +1,7 @@
 """Item domain ports."""
 
 from abc import ABC, abstractmethod
+
 from .entities import Item
 from .value_objects import ItemID
 

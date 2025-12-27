@@ -11,7 +11,7 @@ class UnitOfWork(ABC):
     Used as an async context manager: 'async with <uow>'
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """Initialise the unit of work."""
         self._committed: bool = False
 
@@ -20,7 +20,12 @@ class UnitOfWork(ABC):
         self._committed = False
         return self
 
-    async def __aexit__(self, exc_type, exc_val, exc_tb) -> None:
+    async def __aexit__(
+        self,
+        exc_type: type[BaseException] | None,
+        exc_val: BaseException | None,
+        exc_tb: object | None,
+    ) -> None:
         """Commit or rollback the transaction."""
         if exc_type:
             await self.rollback()

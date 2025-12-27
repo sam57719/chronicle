@@ -1,11 +1,13 @@
 """Dependency injection functions for the API."""
 
 from functools import lru_cache
+
+from app.shared.domain.ports import UnitOfWork
 from app.shared.infrastructure.uow import InMemoryUnitOfWork
 
 
 @lru_cache
-def get_uow() -> InMemoryUnitOfWork:
+def get_uow() -> UnitOfWork:
     """
     Provides a singleton instance of the UnitOfWork.
 
