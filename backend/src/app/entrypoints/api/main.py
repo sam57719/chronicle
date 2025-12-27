@@ -14,6 +14,13 @@ def create_app() -> FastAPI:
     )
     fastapi_app.include_router(v1_router, prefix="/api")
 
+    fastapi_app.openapi_tags = [
+        {
+            "name": "Items",
+            "description": "Operations related to item management.",
+        },
+    ]
+
     return fastapi_app
 
 
