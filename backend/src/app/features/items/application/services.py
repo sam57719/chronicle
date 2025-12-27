@@ -21,20 +21,17 @@ class ItemService:
         """
         self.repository = repository
 
-    def create_item(self, name: str, description: str | None = None) -> Item:
+    async def create_item(self, name: str, description: str | None = None) -> Item:
         """Create a new item."""
-        # 1. Create the Domain Entity (it generates its own UUIDv7 ID)
         item = Item(name=name, description=description)
-
-        # 2. Persist it using the repository
-        self.repository.add(item)
+        await self.repository.add(item)
 
         return item
 
-    def get_item(self, item_id: ItemID) -> Item | None:
+    async def get_item(self, item_id: ItemID) -> Item | None:
         """Retrieve a specific item."""
-        return self.repository.get_by_id(item_id)
+        return await self.repository.get_by_id(item_id)
 
-    def list_items(self) -> list[Item]:
+    async def list_items(self) -> list[Item]:
         """View the entire collection of items."""
-        return self.repository.list_all()
+        return await self.repository.list_all()

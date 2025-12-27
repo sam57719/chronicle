@@ -14,21 +14,21 @@ class InMemoryItemRepository(ItemRepository):
 
     def __init__(self) -> None:
         """
-        Initialize the in-memory repository.
+        Initialise the in-memory repository.
 
         This constructor sets up an empty dictionary to store items,
         keyed by their ItemID.
         """
         self._items: dict[ItemID, Item] = {}
 
-    def add(self, item: Item) -> None:
+    async def add(self, item: Item) -> None:
         """Add an item to the in-memory store."""
         self._items[item.id] = item
 
-    def get_by_id(self, item_id: ItemID) -> Item | None:
+    async def get_by_id(self, item_id: ItemID) -> Item | None:
         """Find an item by ID."""
         return self._items.get(item_id)
 
-    def list_all(self) -> list[Item]:
+    async def list_all(self) -> list[Item]:
         """Return all stored items."""
         return list(self._items.values())

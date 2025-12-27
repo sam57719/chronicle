@@ -14,16 +14,16 @@ class ItemRepository(ABC):
     """
 
     @abstractmethod
-    def add(self, item: Item) -> None:
+    async def add(self, item: Item) -> None:
         """Save a new item to the collection."""
         ...
 
     @abstractmethod
-    def get_by_id(self, item_id: ItemID) -> Item | None:
+    async def get_by_id(self, item_id: ItemID) -> Item | None:
         """Retrieve an item by its unique Domain ID."""
         ...
 
     @abstractmethod
-    def list_all(self) -> list[Item]:
+    async def list_all(self) -> list[Item]:
         """Return all items in the collection."""
         ...
