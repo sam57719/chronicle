@@ -23,6 +23,7 @@ dev = [
     "pydocstyle>=6.3.0",
     "pytest>=9.0.2",
     "pytest-asyncio>=1.3.0",
+    "pytest-cov>=7.0.0",
     "ruff>=0.14.9",
 ]
 
@@ -74,3 +75,13 @@ asyncio_mode = "auto"
 asyncio_default_fixture_loop_scope = "function"
 pythonpath = ["src"]
 testpaths = ["tests"]
+addopts = "--cov=src/app --cov-report=term-missing"
+
+[tool.coverage.run]
+source = ["src/app"]
+omit = ["tests/*", "**/__init__.py"]
+
+[tool.coverage.report]
+# Fail the build if coverage drops below this percentage
+fail_under = 100
+show_missing = true
