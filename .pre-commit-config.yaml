@@ -22,3 +22,13 @@ repos:
     hooks:
       - id: pydocstyle
         args: [--config=backend/pyproject.toml]
+
+  - repo: local
+    hooks:
+      - id: pytest
+        name: pytest
+        entry: uv -C backend run pytest
+        language: system
+        pass_filenames: false
+        always_run: true
+        stages: [ pre-push ]
