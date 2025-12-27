@@ -1,4 +1,15 @@
+import importlib.metadata
+
 from pytest_archon import archrule
+
+
+def _get_installed_packages() -> list[str]:
+    """Returns a dictionary of package names and their versions."""
+    return [dist.metadata["Name"] for dist in importlib.metadata.distributions()]
+
+
+def _get_installed_packages_patterns() -> list[str]:
+    return [f"{pkg}*" for pkg in _get_installed_packages()]
 
 
 def test_domain_is_pure() -> None:
@@ -16,8 +27,6 @@ def test_domain_is_pure() -> None:
         .should_not_import("app.*.infrastructure*", "app.*.*.infrastructure*")
         .should_not_import("app.*.application*", "app.*.*.application*")
         # Ensure no web framework leakage
-        .should_not_import(
-            "fastapi*", "pydantic*", "sqlalchemy*", "starlette*", "uvicorn*"
-        )
+        .should_not_import(*_get_installed_packages_patterns())
         .check("app")
     )
