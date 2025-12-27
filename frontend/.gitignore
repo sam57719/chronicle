@@ -21,3 +21,10 @@ Thumbs.db
 # Vite
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+
+# 1. Allow the lib directory structure
+!/src/lib/
+
+# 2. Recursively allow everything inside lib
+!/src/lib/**
