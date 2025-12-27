@@ -17,13 +17,10 @@ WORKDIR /app
 
 # Copy bare minimum for requirements install
 COPY pyproject.toml ./
-
-# Override to dummy version when installing dependencies only
-ENV SETUPTOOLS_SCM_PRETEND_VERSION=0.0.0
 RUN uv sync --no-install-project --no-install-workspace --no-dev
 
+# Copy the rest of the source code
 COPY src/ src/
-
 RUN uv pip install .
 
 ## ------------------------------- Production Stage ------------------------------ ##
