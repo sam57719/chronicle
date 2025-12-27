@@ -44,6 +44,8 @@ ENV PATH="/app/.venv/bin:$PATH"
 ENV PYTHONPATH="/app/src"
 # Ensure output is sent straight to terminal without buffering
 ENV PYTHONUNBUFFERED=1
+ENV UVICORN_HOST="0.0.0.0"
+ENV UVICORN_PORT="8000"
 
 # Start the application using uvicorn
-CMD ["uvicorn", "app.entrypoints.api.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "app.entrypoints.api.main:app", "--no-server-header"]
