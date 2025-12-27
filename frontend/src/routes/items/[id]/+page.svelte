@@ -24,6 +24,10 @@
     onMount(fetchItemDetails);
 </script>
 
+<svelte:head>
+    <title>{item ? item.name : 'Loading...'} | Menagerist</title>
+</svelte:head>
+
 <main>
     <a href="/items">← Back to List</a>
 

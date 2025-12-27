@@ -13,6 +13,10 @@
     onMount(loadItems);
 </script>
 
+<svelte:head>
+    <title>Inventory ({items.length}) | Menagerist</title>
+</svelte:head>
+
 <main>
     <a href="/">← Back Home</a>
     <h1>Inventory</h1>

@@ -1,6 +1,10 @@
 <script lang="ts">
 </script>
 
+<svelte:head>
+	<title>Menagerist</title>
+</svelte:head>
+
 <main>
 	<h1>Welcome to Menagerist</h1>
 	<p>Your clean-architecture inventory manager.</p>
