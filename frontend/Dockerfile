@@ -2,12 +2,12 @@
 FROM node:20-alpine AS build
 WORKDIR /app
 
-# Copy package files first to leverage Docker layer caching
-COPY package*.json ./
+# Copy lockfile along with package.json for better cache invalidation strategy
+COPY package.json package-lock.json ./
 
-# Install dependencies. Using --legacy-peer-deps helps avoid
-# the ERESOLVE issues common with Svelte 5's current ecosystem.
-RUN npm install --legacy-peer-deps
+# Use 'npm ci' for faster, reproducible installs in automated environments.
+# It skips the dependency resolution tree and uses the lockfile exactly.
+RUN npm ci --legacy-peer-deps
 
 # Copy the rest of the frontend code
 COPY . .
