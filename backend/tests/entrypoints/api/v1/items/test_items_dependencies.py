@@ -4,7 +4,7 @@ from app.entrypoints.api.v1.items.dependencies import (
     get_item_service,
 )
 from app.features.items.infrastructure.repositories import InMemoryItemRepository
-from app.shared.infrastructure.uow import InMemoryUnitOfWork
+from app.shared.infrastructure.unit_of_work import InMemoryUnitOfWork
 
 
 def test_global_uow_dependency_is_singleton() -> None:

@@ -3,7 +3,7 @@ import pytest
 from app.features.items.application.services import ItemService
 from app.features.items.domain.value_objects import ItemID
 from app.features.items.infrastructure.repositories import InMemoryItemRepository
-from app.shared.infrastructure.uow import InMemoryUnitOfWork
+from app.shared.infrastructure.unit_of_work import InMemoryUnitOfWork
 
 
 @pytest.fixture

@@ -3,7 +3,7 @@
 from functools import lru_cache
 
 from app.shared.domain.ports import UnitOfWork
-from app.shared.infrastructure.uow import InMemoryUnitOfWork
+from app.shared.infrastructure.unit_of_work import InMemoryUnitOfWork
 
 
 @lru_cache
