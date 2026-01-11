@@ -35,9 +35,12 @@ class ItemService:
 
             return item
 
-    async def get_item(self, item_id: ItemID) -> Item | None:
+    async def get_item(self, item_id: ItemID | str) -> Item | None:
         """Retrieve a specific item."""
-        return await self.repository.get_by_id(item_id)
+        _item_id = item_id
+        if isinstance(_item_id, str):
+            _item_id = ItemID.create(_item_id)
+        return await self.repository.get_by_id(_item_id)
 
     async def list_items(self) -> list[Item]:
         """View the entire collection of items."""

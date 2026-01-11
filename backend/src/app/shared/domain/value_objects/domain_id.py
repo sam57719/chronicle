@@ -6,12 +6,13 @@ from typing import Self
 from uuid import UUID, uuid7
 
 from app.shared.domain.exceptions import InvalidDomainId
+from app.shared.domain.ports.value_object import ValueObject
 
 _UUID_FACTORY: Callable[[], UUID] = uuid7
 
 
 @dataclass(frozen=True, slots=True)
-class DomainID:
+class DomainID(ValueObject[UUID]):
     """
     Base Value Object for all Entity IDs.
 
@@ -20,23 +21,39 @@ class DomainID:
 
     value: UUID = field(default_factory=_UUID_FACTORY)
 
-    def __post_init__(self) -> None:
-        """Validate the DomainID."""
-        if not isinstance(self.value, UUID):
-            raise InvalidDomainId(id_class=type(self), value=str(self.value))
-
     @classmethod
-    def from_str(cls, uuid_str: str) -> Self:
+    def create(cls, value: UUID | str | None = None) -> Self:
         """
-        Create a DomainID from a string.
+        Unified factory for Domain IDs.
 
-        Catches invalid strings and raises our domain-specific exception.
+        Accepts a UUID, a string representation, or None (to generate new).
         """
-        try:
-            return cls(value=UUID(uuid_str))
-        except ValueError:
-            raise InvalidDomainId(id_class=cls, value=uuid_str)
+        if value is None:
+            return cls()
 
-    def __str__(self) -> str:
-        """Return a string representation of the DomainID."""
-        return str(self.value)
+        if isinstance(value, UUID):
+            return cls(value=value)
+
+        if isinstance(value, str):
+            try:
+                return cls(value=UUID(value))
+            except ValueError:
+                raise InvalidDomainId(id_class=cls, value=value)
+
+        # Fallback for completely wrong types passed to .create()
+        raise InvalidDomainId(
+            id_class=cls,
+            value=value,
+            message=f"Invalid {cls.__name__}: "
+            f"expected UUID or str, got {type(value).__name__}.",
+        )
+
+    def __post_init__(self) -> None:
+        """Strict type validation for the raw value."""
+        if not isinstance(self.value, UUID):
+            raise InvalidDomainId(
+                id_class=type(self),
+                value=self.value,
+                message=f"Invalid {type(self).__name__}: "
+                f"expected UUID type, got {type(self.value).__name__}.",
+            )

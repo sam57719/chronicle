@@ -38,7 +38,7 @@ async def get_item(
 ) -> ItemRead:
     """Retrieves a specific item."""
     try:
-        domain_id = ItemID.from_str(item_id)
+        domain_id = ItemID.create(item_id)
         item = await service.get_item(domain_id)
 
         if not item:

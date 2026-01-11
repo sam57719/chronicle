@@ -89,4 +89,4 @@ def test_get_item_with_malformed_uuid_returns_400(client: TestClient) -> None:
     response = client.get("/api/v1/items/completely-wrong-format")
 
     assert response.status_code == 400
-    assert "is not a valid UUIDv7" in response.json()["detail"]
+    assert "is not a valid UUID" in response.json()["detail"]

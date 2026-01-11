@@ -24,6 +24,18 @@ async def test_create_item_generates_id_and_persists(item_service: ItemService) 
     assert retrieved == item
 
 
+async def test_create_item_generates_id_and_persists_get_with_string(
+    item_service: ItemService,
+) -> None:
+    item = await item_service.create_item(name="Test Item", description="A description")
+
+    assert item.name == "Test Item"
+    assert isinstance(item.id, ItemID)
+
+    retrieved = await item_service.get_item(str(item.id))
+    assert retrieved == item
+
+
 async def test_list_items_returns_all_created_items(item_service: ItemService) -> None:
     await item_service.create_item(name="Item 1")
     await item_service.create_item(name="Item 2")
