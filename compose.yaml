@@ -1,10 +1,28 @@
 ---
 services:
+  db:
+    image: postgres:16-alpine
+    container_name: menagerist-db
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      POSTGRES_USER: menagerist
+      POSTGRES_PASSWORD: ${MENAGERIST_DB_PASSWORD}
+      POSTGRES_DB: menagerist
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U menagerist" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   backend:
     image: menagerist-backend
     container_name: menagerist-backend
     restart: unless-stopped
     build: backend
+    depends_on:
+      db:
+        condition: service_healthy
 
   frontend:
     image: menagerist-frontend
