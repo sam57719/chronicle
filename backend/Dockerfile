@@ -40,6 +40,10 @@ COPY --from=builder /app/src ./src
 ENV PATH="/app/.venv/bin:$PATH"
 ENV PYTHONPATH="/app/src"
 
+COPY docker/healthcheck.py ./healthcheck.py
+HEALTHCHECK --interval=10s --timeout=10s --start-period=8s --retries=3 \
+ CMD ["python", "/app/healthcheck.py"]
+
 # Ensure output is sent straight to terminal without buffering
 ENV PYTHONUNBUFFERED=1
 ENV UVICORN_HOST="0.0.0.0"
@@ -49,6 +53,6 @@ ENV UVICORN_PORT="8000"
 CMD ["uvicorn", "app.entrypoints.api.main:app", \
      "--no-server-header", \
      "--proxy-headers", \
-     "--forwarded-allow-ips", "127.0.0.1", \
+     "--forwarded-allow-ips", "*", \
      "--access-log" \
      ]
