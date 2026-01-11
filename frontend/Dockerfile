@@ -16,7 +16,7 @@ COPY . .
 RUN npm run build
 
 # Stage 2: Serve the static files with Nginx
-FROM nginx:alpine
+FROM nginx:alpine-slim
 
 # Copy the static output from the build stage to Nginx's serve directory
 # Note: SvelteKit with adapter-static defaults to the 'build' directory

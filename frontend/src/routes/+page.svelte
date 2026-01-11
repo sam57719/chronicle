@@ -3,7 +3,8 @@
 
 <h1 class="text-3xl font-bold">Menagerist</h1>
 <p>
-	Welcome to Menagerist, your personal assistant for managing tasks and projects.
+	Welcome to Menagerist, the collection manager!
+	Organize your collections effortlessly.
 </p>
 
 <svelte:head>

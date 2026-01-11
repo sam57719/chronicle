@@ -39,10 +39,16 @@ COPY --from=builder /app/src ./src
 # Set up environment variables
 ENV PATH="/app/.venv/bin:$PATH"
 ENV PYTHONPATH="/app/src"
+
 # Ensure output is sent straight to terminal without buffering
 ENV PYTHONUNBUFFERED=1
 ENV UVICORN_HOST="0.0.0.0"
 ENV UVICORN_PORT="8000"
 
 # Start the application using uvicorn
-CMD ["uvicorn", "app.entrypoints.api.main:app", "--no-server-header"]
+CMD ["uvicorn", "app.entrypoints.api.main:app", \
+     "--no-server-header", \
+     "--proxy-headers", \
+     "--forwarded-allow-ips", "127.0.0.1", \
+     "--access-log"
+     ]
