@@ -5,6 +5,7 @@ services:
     container_name: menagerist-backend
     restart: unless-stopped
     build: backend
+
   frontend:
     image: menagerist-frontend
     container_name: menagerist-frontend
@@ -13,4 +14,5 @@ services:
     ports:
       - "80:80"
     depends_on:
-      - backend
+      backend:
+        condition: service_healthy
