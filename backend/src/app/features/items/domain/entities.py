@@ -5,7 +5,7 @@ from dataclasses import dataclass, field
 from .value_objects import ItemID
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(frozen=True, slots=True, kw_only=True)
 class Item:
     """
     Item entity.
