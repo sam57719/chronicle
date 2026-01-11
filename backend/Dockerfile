@@ -50,5 +50,5 @@ CMD ["uvicorn", "app.entrypoints.api.main:app", \
      "--no-server-header", \
      "--proxy-headers", \
      "--forwarded-allow-ips", "127.0.0.1", \
-     "--access-log"
+     "--access-log" \
      ]
