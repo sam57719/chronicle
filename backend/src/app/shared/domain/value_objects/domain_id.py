@@ -6,7 +6,7 @@ from typing import Self
 from uuid import UUID, uuid7
 
 from app.shared.domain.exceptions import InvalidDomainId
-from app.shared.domain.ports.value_object import ValueObject
+from app.shared.domain.ports import ValueObject
 
 _UUID_FACTORY: Callable[[], UUID] = uuid7
 
