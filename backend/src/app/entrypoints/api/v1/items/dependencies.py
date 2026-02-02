@@ -8,7 +8,7 @@ from app.entrypoints.api.dependencies import get_uow
 from app.features.items.application.use_cases.create_item import CreateItem
 from app.features.items.application.use_cases.get_item import GetItem
 from app.features.items.application.use_cases.list_items import ListItems
-from app.features.items.infrastructure.repositories import InMemoryItemRepository
+from app.features.items.persistence.in_memory_repository import InMemoryItemRepository
 from app.shared.domain.ports import UnitOfWork
 
 

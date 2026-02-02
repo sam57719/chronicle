@@ -6,10 +6,10 @@ from app.features.items.application.use_cases.create_item import (
     CreateItem,
     CreateItemCommand,
 )
-from app.features.items.application.use_cases.get_item import GetItem, GetItemCommand
+from app.features.items.application.use_cases.get_item import GetItem, GetItemQuery
 from app.features.items.application.use_cases.list_items import (
     ListItems,
-    ListItemsCommand,
+    ListItemsQuery,
 )
 from app.features.items.domain.value_objects import ItemID
 from app.shared.domain.exceptions import InvalidDomainId
@@ -39,7 +39,7 @@ async def list_items(
     uc: ListItems = Depends(get_list_items_use_case),
 ) -> list[ItemRead]:
     """Lists all items."""
-    items = await uc.execute(ListItemsCommand())
+    items = await uc.execute(ListItemsQuery())
     return [
         ItemRead(id=str(i.id), name=i.name, description=i.description) for i in items
     ]
@@ -52,7 +52,7 @@ async def get_item(
     """Retrieves a specific item."""
     try:
         domain_id = ItemID.create(item_id)
-        item = await uc.execute(GetItemCommand(item_id=domain_id))
+        item = await uc.execute(GetItemQuery(item_id=domain_id))
 
         if not item:
             raise HTTPException(

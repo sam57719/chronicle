@@ -4,13 +4,13 @@ from app.features.items.application.use_cases.create_item import (
     CreateItem,
     CreateItemCommand,
 )
-from app.features.items.application.use_cases.get_item import GetItem, GetItemCommand
+from app.features.items.application.use_cases.get_item import GetItem, GetItemQuery
 from app.features.items.application.use_cases.list_items import (
     ListItems,
-    ListItemsCommand,
+    ListItemsQuery,
 )
 from app.features.items.domain.value_objects import ItemID
-from app.features.items.infrastructure.repositories import InMemoryItemRepository
+from app.features.items.persistence.in_memory_repository import InMemoryItemRepository
 from app.shared.infrastructure.unit_of_work import InMemoryUnitOfWork
 
 
@@ -50,7 +50,7 @@ async def test_create_item_persists_and_generates_id(
     assert item.name == "Test Item"
     assert isinstance(item.id, ItemID)
 
-    retrieved = await get_item_uc.execute(GetItemCommand(item_id=item.id))
+    retrieved = await get_item_uc.execute(GetItemQuery(item_id=item.id))
     assert retrieved == item
 
 
@@ -68,6 +68,6 @@ async def test_list_items_returns_all_created_items(
     await create_item_uc.execute(CreateItemCommand(name="Item 1"))
     await create_item_uc.execute(CreateItemCommand(name="Item 2"))
 
-    items = await list_items_uc.execute(ListItemsCommand())
+    items = await list_items_uc.execute(ListItemsQuery())
 
     assert {i.name for i in items} == {"Item 1", "Item 2"}

@@ -1,7 +1,7 @@
 """Infrastructure implementations for Items."""
 
+from app.features.items.application.interfaces.repository import ItemRepository
 from app.features.items.domain.entities import Item
-from app.features.items.domain.ports import ItemRepository
 from app.features.items.domain.value_objects import ItemID
 
 

@@ -5,7 +5,7 @@ from fastapi.testclient import TestClient
 
 from app.entrypoints.api.main import app
 from app.entrypoints.api.v1.items.dependencies import get_item_repository
-from app.features.items.infrastructure.repositories import InMemoryItemRepository
+from app.features.items.persistence.in_memory_repository import InMemoryItemRepository
 
 
 @pytest.fixture

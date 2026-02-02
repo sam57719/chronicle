@@ -2,11 +2,11 @@
 
 from dataclasses import dataclass
 
+from app.features.items.application.interfaces.repository import ItemRepository
 from app.shared.application.interfaces.use_case import UseCase
 from app.shared.domain.ports import UnitOfWork
 
 from ...domain.entities import Item
-from ...domain.ports import ItemRepository
 
 
 @dataclass(frozen=True, slots=True)

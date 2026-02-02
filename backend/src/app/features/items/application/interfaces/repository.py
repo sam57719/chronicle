@@ -1,12 +1,12 @@
 """Item domain ports."""
 
-from abc import ABC, abstractmethod
+from typing import Protocol
 
-from .entities import Item
-from .value_objects import ItemID
+from ...domain.entities import Item
+from ...domain.value_objects import ItemID
 
 
-class ItemRepository(ABC):
+class ItemRepository(Protocol):
     """
     Port for Item storage.
 
@@ -14,17 +14,14 @@ class ItemRepository(ABC):
     stored in SQL, NoSQL, or a CSV file.
     """
 
-    @abstractmethod
     async def add(self, item: Item) -> None:
         """Save a new item to the collection."""
         ...
 
-    @abstractmethod
     async def get_by_id(self, item_id: ItemID) -> Item | None:
         """Retrieve an item by its unique Domain ID."""
         ...
 
-    @abstractmethod
     async def list_all(self) -> list[Item]:
         """Return all items in the collection."""
         ...
