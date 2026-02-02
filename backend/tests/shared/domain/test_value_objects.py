@@ -14,6 +14,11 @@ def test_domain_id_from_invalid_string_raises_error() -> None:
     assert "DomainID" in str(exc.value)
 
 
+def test_domain_id_from_domain_id_returns_same_domain_id() -> None:
+    domain_id = DomainID.create()
+    assert DomainID.create(domain_id) == domain_id
+
+
 def test_domain_id_from_valid_string_returns_domain_id() -> None:
     uuid_str = str(uuid7())
     domain_id = DomainID.create(uuid_str)

@@ -22,7 +22,7 @@ class DomainID(ValueObject[UUID]):
     value: UUID = field(default_factory=_UUID_FACTORY)
 
     @classmethod
-    def create(cls, value: UUID | str | None = None) -> Self:
+    def create(cls, value: Self | UUID | str | None = None) -> Self:
         """
         Unified factory for Domain IDs.
 
@@ -30,6 +30,9 @@ class DomainID(ValueObject[UUID]):
         """
         if value is None:
             return cls()
+
+        if isinstance(value, cls):
+            return value
 
         if isinstance(value, UUID):
             return cls(value=value)
