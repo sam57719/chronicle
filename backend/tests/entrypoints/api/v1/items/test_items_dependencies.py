@@ -5,16 +5,16 @@ from app.entrypoints.api.v1.items.dependencies import (
     get_item_repository,
     get_list_items_use_case,
 )
+from app.features.items.application.interfaces.repository import ItemRepository
 from app.features.items.application.use_cases.create_item import CreateItem
 from app.features.items.application.use_cases.get_item import GetItem
 from app.features.items.application.use_cases.list_items import ListItems
-from app.features.items.persistence.in_memory_repository import InMemoryItemRepository
 from app.shared.domain.ports import UnitOfWork
 
 
-def test_get_item_repository_returns_in_memory_repo() -> None:
+def test_get_item_repository() -> None:
     repo = get_item_repository()
-    assert isinstance(repo, InMemoryItemRepository)
+    assert isinstance(repo, ItemRepository)
 
 
 def test_get_item_repository_is_singleton() -> None:

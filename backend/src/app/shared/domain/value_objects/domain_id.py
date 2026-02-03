@@ -2,7 +2,7 @@
 
 from collections.abc import Callable
 from dataclasses import dataclass, field
-from typing import Self
+from typing import Self, overload
 from uuid import UUID, uuid7
 
 from app.shared.domain.exceptions import InvalidDomainId
@@ -20,6 +20,22 @@ class DomainID(ValueObject[UUID]):
     """
 
     value: UUID = field(default_factory=_UUID_FACTORY)
+
+    @overload
+    @classmethod
+    def create(cls, value: None = None) -> Self: ...
+
+    @overload
+    @classmethod
+    def create(cls, value: UUID) -> Self: ...
+
+    @overload
+    @classmethod
+    def create(cls, value: str) -> Self: ...
+
+    @overload
+    @classmethod
+    def create(cls, value: Self) -> Self: ...
 
     @classmethod
     def create(cls, value: Self | UUID | str | None = None) -> Self:

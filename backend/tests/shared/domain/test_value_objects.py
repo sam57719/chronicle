@@ -1,3 +1,4 @@
+from typing import Any, cast
 from uuid import UUID, uuid7
 
 import pytest
@@ -38,8 +39,7 @@ def test_domain_id_from_none_generate_new_uuid() -> None:
 
 def test_domain_id_create_with_incompatible_type_raises_error() -> None:
     with pytest.raises(InvalidDomainId):
-        # noinspection PyTypeChecker
-        DomainID.create(123)  # type: ignore[arg-type]
+        DomainID.create(cast(Any, object()))
 
 
 def test_direct_instantiation_of_domain_id_with_uuid() -> None:

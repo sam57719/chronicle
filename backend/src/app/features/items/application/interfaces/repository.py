@@ -1,11 +1,12 @@
 """Item domain ports."""
 
-from typing import Protocol
+from typing import Protocol, runtime_checkable
 
 from ...domain.entities import Item
 from ...domain.value_objects import ItemID
 
 
+@runtime_checkable
 class ItemRepository(Protocol):
     """
     Port for Item storage.
