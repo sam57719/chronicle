@@ -90,3 +90,26 @@ def test_get_item_with_malformed_uuid_returns_400(client: TestClient) -> None:
 
     assert response.status_code == 400
     assert "is not a valid UUID" in response.json()["detail"]
+
+
+def test_delete_item(client: TestClient) -> None:
+    # Arrange: Create an item to get its ID
+    created = client.post("/api/v1/items/", json={"name": "Specific Item"}).json()
+    item_id = created["id"]
+
+    response = client.delete(f"/api/v1/items/{item_id}")
+    assert response.status_code == 204
+
+    response = client.get(f"/api/v1/items/{item_id}")
+    assert response.status_code == 404
+
+
+def test_delete_item_with_malformed_uuid_returns_400(client: TestClient) -> None:
+    response = client.delete("/api/v1/items/completely-wrong-format")
+    assert response.status_code == 400
+
+
+def test_delete_nonexistent_item_returns_404(client: TestClient) -> None:
+    fake_id = "019b388f-4d65-7325-8c6a-b13255595291"
+    response = client.delete(f"/api/v1/items/{fake_id}")
+    assert response.status_code == 404

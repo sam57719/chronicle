@@ -7,6 +7,7 @@ from fastapi import Depends
 from app.entrypoints.api.dependencies import get_uow
 from app.features.items.application.interfaces.repository import ItemRepository
 from app.features.items.application.use_cases.create_item import CreateItem
+from app.features.items.application.use_cases.delete_item import DeleteItem
 from app.features.items.application.use_cases.get_item import GetItem
 from app.features.items.application.use_cases.list_items import ListItems
 from app.features.items.persistence.in_memory_repository import InMemoryItemRepository
@@ -41,3 +42,11 @@ def get_list_items_use_case(
 ) -> ListItems:
     """Provides a use case instance with the given repository."""
     return ListItems(repository=repo, uow=uow)
+
+
+def get_delete_item_use_case(
+    repo: ItemRepository = Depends(get_item_repository),
+    uow: UnitOfWork = Depends(get_uow),
+) -> DeleteItem:
+    """Provides a use case instance with the given repository."""
+    return DeleteItem(repository=repo, uow=uow)

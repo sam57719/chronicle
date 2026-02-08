@@ -6,6 +6,10 @@ from app.features.items.application.use_cases.create_item import (
     CreateItem,
     CreateItemCommand,
 )
+from app.features.items.application.use_cases.delete_item import (
+    DeleteItem,
+    DeleteItemCommand,
+)
 from app.features.items.application.use_cases.get_item import GetItem, GetItemQuery
 from app.features.items.application.use_cases.list_items import (
     ListItems,
@@ -16,6 +20,7 @@ from app.shared.domain.exceptions import InvalidDomainId
 
 from .dependencies import (
     get_create_item_use_case,
+    get_delete_item_use_case,
     get_get_item_use_case,
     get_list_items_use_case,
 )
@@ -63,3 +68,21 @@ async def get_item(
 
     except InvalidDomainId as e:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
+
+
+@router.delete("/{item_id}", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_item(
+    item_id: str, uc: DeleteItem = Depends(get_delete_item_use_case)
+) -> None:
+    """Deletes a specific item."""
+    try:
+        domain_id = ItemID.create(item_id)
+        item = await uc.execute(DeleteItemCommand(item_id=domain_id))
+        if not item:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND, detail="Item not found"
+            )
+    except InvalidDomainId as e:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
+
+    return None

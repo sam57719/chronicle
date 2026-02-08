@@ -32,3 +32,7 @@ class InMemoryItemRepository(ItemRepository):
     async def list_all(self) -> list[Item]:
         """Return all stored items."""
         return list(self._items.values())
+
+    async def delete_by_id(self, item_id: ItemID) -> Item | None:
+        """Delete an item by its unique ID."""
+        return self._items.pop(item_id, None)

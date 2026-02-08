@@ -26,3 +26,7 @@ class ItemRepository(Protocol):
     async def list_all(self) -> list[Item]:
         """Return all items in the collection."""
         ...
+
+    async def delete_by_id(self, item_id: ItemID) -> Item | None:
+        """Delete an item by its unique Domain ID."""
+        ...
