@@ -1,17 +1,5 @@
 ## ------------------------------- Builder Stage ------------------------------ ##
-FROM python:3.14-bookworm AS builder
-
-RUN apt-get update && apt-get install --no-install-recommends -y \
-        build-essential && \
-    apt-get clean && rm -rf /var/lib/apt/lists/*
-
-# Download the latest installer, install it and then remove it
-ADD https://astral.sh/uv/install.sh /install.sh
-ENV UV_VERSION=0.9.18
-RUN chmod -R 755 /install.sh && /install.sh && rm /install.sh
-
-# Set up the UV environment path correctly
-ENV PATH="/root/.local/bin:${PATH}"
+FROM ghcr.io/astral-sh/uv:0.9.25-python3.14-bookworm-slim AS builder
 
 WORKDIR /app
 
@@ -46,6 +34,9 @@ HEALTHCHECK --interval=60s --timeout=5s --start-period=8s --retries=3 \
 
 # Ensure output is sent straight to terminal without buffering
 ENV PYTHONUNBUFFERED=1
+
+# Prevent Python from writing .pyc files to disk
+ENV PYTHONDONTWRITEBYTECODE=1
 
 # Set environment variables for granian
 ENV GRANIAN_HOST="0.0.0.0"
