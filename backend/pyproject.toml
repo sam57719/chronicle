@@ -71,12 +71,13 @@ ignore = []
 known-first-party = ["app"]
 section-order = ["future", "standard-library", "third-party", "first-party", "local-folder"]
 
-[tool.pytest.ini_options]
+[tool.pytest]
 asyncio_mode = "auto"
 asyncio_default_fixture_loop_scope = "function"
 pythonpath = ["src"]
 testpaths = ["tests"]
-addopts = "--cov=src/app --cov-report=term-missing"
+addopts = ["--cov=src/app", "--cov-report=term-missing"]
+
 
 [tool.coverage.run]
 source = ["src/app"]
