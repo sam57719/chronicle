@@ -1,4 +1,4 @@
-"""Get Item use case."""
+"""Delete Item use case."""
 
 from dataclasses import dataclass
 
@@ -12,13 +12,13 @@ from ...domain.value_objects import ItemID
 
 @dataclass(frozen=True, slots=True)
 class DeleteItemCommand:
-    """Input for retrieving an item."""
+    """Input for deleting an item."""
 
     item_id: ItemID
 
 
 class DeleteItem(UseCase[DeleteItemCommand, Item | None]):
-    """Use case: retrieve an existing Item by its ID."""
+    """Use case: delete an existing Item by its ID."""
 
     def __init__(self, repository: ItemRepository, uow: UnitOfWork) -> None:
         """Initialise the use case with a repository and unit of work."""
