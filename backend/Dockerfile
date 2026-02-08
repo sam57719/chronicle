@@ -26,9 +26,9 @@ RUN uv pip install .
 ## ------------------------------- Production Stage ------------------------------ ##
 FROM python:3.14-slim-bookworm AS runtime
 
-# Create a non-root user for security
-RUN useradd -m appuser
-USER appuser
+# Create a non-root user to run the application
+RUN useradd app
+USER app
 
 WORKDIR /app
 
@@ -41,18 +41,16 @@ ENV PATH="/app/.venv/bin:$PATH"
 ENV PYTHONPATH="/app/src"
 
 COPY docker/healthcheck.py ./healthcheck.py
-HEALTHCHECK --interval=10s --timeout=10s --start-period=8s --retries=3 \
+HEALTHCHECK --interval=60s --timeout=5s --start-period=8s --retries=3 \
  CMD ["python", "/app/healthcheck.py"]
 
 # Ensure output is sent straight to terminal without buffering
 ENV PYTHONUNBUFFERED=1
-ENV UVICORN_HOST="0.0.0.0"
-ENV UVICORN_PORT="8000"
 
-# Start the application using uvicorn
-CMD ["uvicorn", "app.entrypoints.api.main:app", \
-     "--no-server-header", \
-     "--proxy-headers", \
-     "--forwarded-allow-ips", "*", \
-     "--access-log" \
-     ]
+# Set environment variables for granian
+ENV GRANIAN_HOST="0.0.0.0"
+ENV GRANIAN_PORT="8000"
+ENV GRANIAN_LOG_ACCESS_ENABLED=true
+
+# Start the application using granian (ASGI)
+CMD ["granian", "--interface", "asgi", "app.entrypoints.api.main:app"]

@@ -11,7 +11,7 @@ import os
 import sys
 import urllib.request
 
-port = os.environ.get("UVICORN_PORT")
+port = os.environ.get("GRANIAN_PORT")
 url = f"http://localhost:{port}/api/health"
 req = urllib.request.Request(url)
 
