@@ -16,7 +16,6 @@ from app.features.items.application.use_cases.list_items import (
     ListItemsQuery,
 )
 from app.features.items.domain.value_objects import ItemID
-from app.shared.domain.exceptions import InvalidDomainId
 
 from .dependencies import (
     get_create_item_use_case,
@@ -29,7 +28,12 @@ from .schemas import ItemCreate, ItemRead
 router = APIRouter(prefix="/items", tags=["Items"])
 
 
-@router.post("/", response_model=ItemRead, status_code=status.HTTP_201_CREATED)
+@router.post(
+    "/",
+    response_model=ItemRead,
+    status_code=status.HTTP_201_CREATED,
+    responses={201: {"description": "Item created successfully"}},
+)
 async def create_item(
     payload: ItemCreate, uc: CreateItem = Depends(get_create_item_use_case)
 ) -> ItemRead:
@@ -50,39 +54,38 @@ async def list_items(
     ]
 
 
-@router.get("/{item_id}", response_model=ItemRead)
+@router.get(
+    "/{item_id}",
+    response_model=ItemRead,
+    responses={404: {"description": "Item not found"}},
+)
 async def get_item(
     item_id: str, uc: GetItem = Depends(get_get_item_use_case)
 ) -> ItemRead:
     """Retrieves a specific item."""
-    try:
-        domain_id = ItemID.create(item_id)
-        item = await uc.execute(GetItemQuery(item_id=domain_id))
+    domain_id = ItemID.create(item_id)
+    item = await uc.execute(GetItemQuery(item_id=domain_id))
 
-        if not item:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND, detail="Item not found"
-            )
+    if not item:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Item not found"
+        )
 
-        return ItemRead(id=str(item.id), name=item.name, description=item.description)
-
-    except InvalidDomainId as e:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
+    return ItemRead(id=str(item.id), name=item.name, description=item.description)
 
 
-@router.delete("/{item_id}", status_code=status.HTTP_204_NO_CONTENT)
+@router.delete(
+    "/{item_id}",
+    status_code=status.HTTP_204_NO_CONTENT,
+    responses={404: {"description": "Item not found"}},
+)
 async def delete_item(
     item_id: str, uc: DeleteItem = Depends(get_delete_item_use_case)
 ) -> None:
     """Deletes a specific item."""
-    try:
-        domain_id = ItemID.create(item_id)
-        item = await uc.execute(DeleteItemCommand(item_id=domain_id))
-        if not item:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND, detail="Item not found"
-            )
-    except InvalidDomainId as e:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
-
-    return None
+    domain_id = ItemID.create(item_id)
+    item = await uc.execute(DeleteItemCommand(item_id=domain_id))
+    if not item:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Item not found"
+        )

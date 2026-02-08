@@ -4,6 +4,7 @@ from fastapi import FastAPI
 
 from app.entrypoints.api.system.router import router as system_router
 from app.entrypoints.api.v1.router import v1_router
+from app.entrypoints.exception_handlers import add_exception_handlers
 
 
 def create_app() -> FastAPI:
@@ -15,6 +16,8 @@ def create_app() -> FastAPI:
     )
     fastapi_app.include_router(system_router, prefix="/api")
     fastapi_app.include_router(v1_router, prefix="/api")
+
+    add_exception_handlers(fastapi_app)
 
     fastapi_app.openapi_tags = [
         {
