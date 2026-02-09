@@ -3,7 +3,7 @@ from collections.abc import Iterator
 import pytest
 from fastapi.testclient import TestClient
 
-from app.entrypoints.api.main import app
+from app.entrypoints.api.main import create_app
 from app.entrypoints.api.v1.items.dependencies import get_item_repository
 from app.features.items.persistence.in_memory_repository import InMemoryItemRepository
 
@@ -11,16 +11,15 @@ from app.features.items.persistence.in_memory_repository import InMemoryItemRepo
 @pytest.fixture
 def client() -> Iterator[TestClient]:
     """Provides a TestClient and clears the repository before each test."""
-    # 1. Create a fresh repository instance
+
     test_repo = InMemoryItemRepository()
 
-    # 2. Tell FastAPI to use this fresh repo instead of the cached one
+    app = create_app()
     app.dependency_overrides[get_item_repository] = lambda: test_repo
 
     with TestClient(app) as c:
         yield c
 
-    # 3. Clean up the override after the test finishes
     app.dependency_overrides.clear()
 
 

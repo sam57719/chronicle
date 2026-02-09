@@ -2,9 +2,9 @@
 
 from fastapi import FastAPI
 
+from app.entrypoints.api.exception_handlers import add_exception_handlers
 from app.entrypoints.api.system.router import router as system_router
 from app.entrypoints.api.v1.router import v1_router
-from app.entrypoints.exception_handlers import add_exception_handlers
 
 
 def create_app() -> FastAPI:
@@ -31,6 +31,3 @@ def create_app() -> FastAPI:
     ]
 
     return fastapi_app
-
-
-app = create_app()

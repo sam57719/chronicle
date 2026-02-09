@@ -44,4 +44,4 @@ ENV GRANIAN_PORT="8000"
 ENV GRANIAN_LOG_ACCESS_ENABLED=true
 
 # Start the application using granian (ASGI)
-CMD ["granian", "--interface", "asgi", "app.entrypoints.api.main:app"]
+CMD ["granian", "--interface", "asgi", "app.entrypoints.api.asgi:app"]
