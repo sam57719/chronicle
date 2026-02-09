@@ -1,5 +1,5 @@
 import importlib
-from unittest.mock import Mock, patch
+from unittest.mock import ANY, Mock, patch
 
 import app.entrypoints.api.asgi as asgi_module
 
@@ -22,5 +22,5 @@ def test_asgi_app_is_wrapped_with_proxy_headers() -> None:
         importlib.reload(asgi_module)
 
         create_app_mock.assert_called_once()
-        wrap_mock.assert_called_once_with(fake_fastapi_app)
+        wrap_mock.assert_called_once_with(fake_fastapi_app, trusted_hosts=ANY)
         assert asgi_module.app is wrapped_app

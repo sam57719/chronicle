@@ -1,34 +1,37 @@
-# Stage 1: Build the Svelte 5 app
+## ------------------------------- Builder Stage ------------------------------- ##
 FROM node:20-alpine AS build
 WORKDIR /app
 
-# Copy lockfile along with package.json for better cache invalidation strategy
+# Copy package files first for caching
 COPY package.json package-lock.json ./
 
-# Use 'npm ci' for faster, reproducible installs in automated environments.
-# It skips the dependency resolution tree and uses the lockfile exactly.
+# Install dependencies (reproducible, CI-friendly)
 RUN npm ci --legacy-peer-deps
 
-# Copy the rest of the frontend code
+# Copy source code
 COPY . .
 
-# Run the SvelteKit build (outputs to the 'build' folder)
+# Build the SvelteKit app (outputs to 'build')
 RUN npm run build
 
-# Stage 2: Serve the static files with Nginx
+
+## ------------------------------- Runtime Stage ------------------------------- ##
 FROM ghcr.io/nginx/nginx-unprivileged:alpine-slim
 
-# Copy the static output from the build stage to Nginx's serve directory
-# Note: SvelteKit with adapter-static defaults to the 'build' directory
+WORKDIR /usr/share/nginx/html
+
+# Copy the static build from builder
 COPY --from=build /app/build /usr/share/nginx/html
 
-# Copy your custom Nginx configuration for the API proxy
+# Copy Nginx config
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
+# Expose HTTP port
 EXPOSE 80
 
 # Healthcheck
 HEALTHCHECK --interval=60s --timeout=3s --start-period=5s --retries=3 \
     CMD wget --no-verbose --tries=1 --spider http://0.0.0.0:80/ || exit 1
 
+# Run Nginx in foreground (non-root)
 CMD ["nginx", "-g", "daemon off;"]
