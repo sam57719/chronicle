@@ -55,7 +55,7 @@ ENV GRANIAN_LOG_LEVEL=debug
 
 # Healthcheck
 COPY docker/healthcheck.py /app/healthcheck.py
-HEALTHCHECK --interval=60s --timeout=5s --start-period=5s --retries=3 \
+HEALTHCHECK --interval=60s --timeout=5s --start-period=10s --retries=3 \
   CMD ["python", "/app/healthcheck.py"]
 
 # Run Granian ASGI
