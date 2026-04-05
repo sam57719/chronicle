@@ -69,7 +69,7 @@ class ApplicationInfo(BaseModel):
                 version=meta["Version"] or "0.0.0",
                 description=meta["Summary"] or "",
                 license=LicenseInfo(
-                    name=meta["License-Expression"] or "Apache-2.0",
+                    name=meta["License-Expression"],
                     url=urls.get("License", ""),
                 ),
             )
