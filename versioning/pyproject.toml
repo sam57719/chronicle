@@ -1,0 +1,18 @@
+[project]
+name = "menagerist-versioning"
+version = "0.1.0"
+description = "Custom versioning plugin for Menagerist"
+requires-python = ">=3.14"
+dependencies = [
+    "setuptools-scm>=10.0.5",
+]
+
+[build-system]
+requires = ["hatchling>=1.27.0"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/menagerist_versioning"]
+
+[project.entry-points."setuptools_scm.version_scheme"]
+menagerist_calver = "menagerist_versioning:menagerist_calver"
