@@ -1,0 +1,11 @@
+---
+services:
+  backend:
+    image: menagerist-backend
+    container_name: menagerist-backend
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    ports:
+      - "8000:8000"

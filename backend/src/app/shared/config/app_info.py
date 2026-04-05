@@ -10,21 +10,13 @@ from pydantic_settings import (
     SettingsConfigDict,
 )
 
-__all__ = ["ApplicationInfo", "ContactInfo", "LicenseInfo"]
-
-
-class ContactInfo(BaseModel):
-    """API contact information."""
-
-    name: str = ""
-    url: str = ""
-    email: str = ""
+__all__ = ["ApplicationInfo", "LicenseInfo"]
 
 
 class LicenseInfo(BaseModel):
     """API licence information."""
 
-    name: str = "Apache-2.0"
+    name: str = ""
     url: str = ""
 
 
@@ -36,7 +28,7 @@ class _MenageristToolConfig(BaseSettings):
         pyproject_toml_table_header=("tool", "menagerist"),
     )
 
-    display_name: str = Field("Menagerist", alias="display-name")
+    display_name: str = Field(alias="display-name")
 
     @classmethod
     def settings_customise_sources(
@@ -60,7 +52,6 @@ class ApplicationInfo(BaseModel):
     display_name: str = "Menagerist"
     version: str = "0.0.0"
     description: str = ""
-    contact: ContactInfo = Field(default_factory=ContactInfo)
     license: LicenseInfo = Field(default_factory=LicenseInfo)
 
     @classmethod
@@ -77,11 +68,6 @@ class ApplicationInfo(BaseModel):
                 display_name=tool.display_name,
                 version=meta["Version"] or "0.0.0",
                 description=meta["Summary"] or "",
-                contact=ContactInfo(
-                    name=meta["Author"] or "",
-                    url=urls.get("Repository", ""),
-                    email=meta["Author-email"] or "",
-                ),
                 license=LicenseInfo(
                     name=meta["License-Expression"] or "Apache-2.0",
                     url=urls.get("License", ""),
