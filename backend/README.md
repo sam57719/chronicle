@@ -184,7 +184,7 @@ The database is not relied upon for correctness.
 
 - Domain and application logic are tested without infrastructure
 - In-memory repositories are used for unit tests
-- Architecture tests enforce dependency direction
+- Architecture tests enforce dependency directions
 - Integration tests are optional and limited in scope
 
 Tests should be fast, deterministic, and easy to run.
