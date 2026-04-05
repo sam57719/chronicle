@@ -2,27 +2,26 @@
 
 *(meh-NAH-juh-rist)*
 
-A lightweight, self-hostable platform for organising collections of items, events, and people.
+A lightweight, self-hostable personal knowledge graph for collectors.
 
 ---
 
 ## What Menagerist Does
 
-- Store **items** — anything physical or digital: photos, signed items, laserdiscs, books, props
-- Store **people** — actors, authors, friends, family
-- Store **events** — signings, conventions, photoshoots
-- Link items ↔ people, people ↔ events, and items ↔ events
-- Upload photos for items, signatures, and selfies
-- Optional imports from CSV/Excel (future)
-- Simple, clean JSON API
-- Runs easily in Docker
+- Model anything as a **node** — people, items, gigs, bands, films, venues, or your own custom types
+- Connect nodes with **edges** — signed by, performed at, obtained at, member of, or any relationship you define
+- Traverse your collection as a graph — find everything connected to a person, a gig, or a franchise
+- Enrich nodes automatically from **TMDB** and **MusicBrainz**
+- Upload photos for items, signatures, and moments
+- Query across your collection with user-defined filters and traversals
+- Runs easily in Docker — your data, your server
 
 ---
 
 ## Why Menagerist?
 
-**Menagerist** is inspired by the idea of a *menagerie* — a carefully curated collection. It’s designed to make organizing, linking, and preserving your collections simple and meaningful.
+**Menagerist** is inspired by the idea of a *menagerie* — a carefully curated collection. It's built on the idea that the most valuable thing about a collection isn't the items themselves, but the connections between them.
 
 > A subtle nod to *Star Trek: The Original Series – The Menagerie*.
 
-Whether you’re tracking memorabilia, events, or people, Menagerist gives you a central, self-hosted place to keep everything connected and easy to find.
+A signed single isn't just an object — it was signed by someone, at a specific gig, in a specific year. Menagerist keeps that context alive, linking people, places, moments, and things into a graph that tells the real story of your collection.
