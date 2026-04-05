@@ -11,7 +11,7 @@ def create_app() -> FastAPI:
 
     fastapi_app = FastAPI(
         title=settings.app_info.display_name + " API",
-        version=str(settings.app_info.version),
+        version=settings.app_info.version,
         description=settings.app_info.description,
         license_info=settings.app_info.license.model_dump(),
         docs_url="/api/docs",
