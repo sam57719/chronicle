@@ -20,7 +20,7 @@ class Settings(BaseSettings):
         extra="ignore",
     )
 
-    app_info: ApplicationInfo = Field(default_factory=ApplicationInfo.from_package)
+    app: ApplicationInfo = Field(default_factory=ApplicationInfo.from_package)
 
 
 @lru_cache

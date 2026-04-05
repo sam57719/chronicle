@@ -71,7 +71,8 @@ ENV PATH="/app/.venv/bin:$PATH" \
 
 EXPOSE 8000
 
-#HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
-#    CMD ["/app/.venv/bin/python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+COPY backend/docker/healthcheck.py /app/healthcheck.py
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+    CMD ["python", "/app/healthcheck.py"]
 
 CMD ["granian", "--interface", "asgi", "app.entrypoints.api.asgi:app"]
