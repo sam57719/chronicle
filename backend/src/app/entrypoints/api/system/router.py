@@ -9,10 +9,12 @@ router: APIRouter = APIRouter(tags=["System"])
 
 @router.get(
     "/health",
-    summary="Health Check",
-    description="Is the system online?",
+    response_model=HealthCheckResponse,
+    summary="Backend Health Check",
+    description="Is the backend online?",
     status_code=HTTPStatus.OK,
+    response_description="Backend is online",
 )
 async def health_check() -> HealthCheckResponse:
-    """Get health of the system."""
+    """Get health of the backend."""
     return HealthCheckResponse(status="ok")
