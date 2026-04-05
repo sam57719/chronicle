@@ -5,6 +5,7 @@ from fastapi import FastAPI
 from app.shared.config import Settings, get_settings
 
 from .system.router import router as system_router
+from .v1.router import v1_router
 
 
 def create_app() -> FastAPI:
@@ -21,6 +22,7 @@ def create_app() -> FastAPI:
     )
 
     fastapi_app.include_router(system_router, prefix="/api")
+    fastapi_app.include_router(v1_router, prefix="/api")
 
     fastapi_app.openapi_tags = [
         {"name": "System", "description": "System related endpoints"},
