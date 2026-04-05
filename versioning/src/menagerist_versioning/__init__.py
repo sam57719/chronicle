@@ -3,10 +3,8 @@
 from __future__ import annotations
 
 import datetime
-from typing import TYPE_CHECKING
 
-if TYPE_CHECKING:
-    from setuptools_scm.version import ScmVersion
+from setuptools_scm.version import ScmVersion
 
 
 def menagerist_calver(version: ScmVersion) -> str:

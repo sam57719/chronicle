@@ -24,14 +24,26 @@ select = [
     "ANN",    # flake8-annotations
 ]
 ignore = [
-    # formatter conflicts
-    "W191", "E111", "E114", "E117",
-    "D206", "D300",
-    "Q000", "Q001", "Q002", "Q003", "Q004",
-    "COM812", "COM819", "ISC002",
+    # formatter conflicts per https://docs.astral.sh/ruff/formatter/#conflicting-lint-rules
+    "W191",   # tab-indentation
+    "E111",   # indentation-with-invalid-multiple
+    "E114",   # indentation-with-invalid-multiple-comment
+    "E117",   # over-indented
+    "D206",   # docstring-tab-indentation
+    "D300",   # triple-single-quotes
+    "Q000",   # bad-quotes-inline-string
+    "Q001",   # bad-quotes-multiline-string
+    "Q002",   # bad-quotes-docstring
+    "Q003",   # avoidable-escaped-quote
+    "Q004",   # unnecessary-escaped-quote
+    "COM812", # missing-trailing-comma
+    "COM819", # prohibited-trailing-comma
+    "ISC002", # multi-line-implicit-string-concatenation
     # project-specific
-    "B008",
-    "D100", "D104", "D107",
+    "B008",   # FastAPI Depends() in defaults
+    "D100",   # missing docstring in public module
+    "D104",   # missing docstring in public package
+    "D107",   # missing docstring in __init__
 ]
 fixable = ["ALL"]
 
@@ -59,6 +71,21 @@ show_error_codes = true
 explicit_package_bases = true
 namespace_packages = true
 plugins = ["pydantic.mypy"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+testpaths = ["backend/tests", "versioning/tests"]
+pythonpath = ["backend/src", "versioning/src"]
+addopts = [
+    "--strict-markers",
+    "--tb=short",
+]
+markers = [
+    "unit: fast, no infrastructure",
+    "integration: requires database",
+    "e2e: full stack",
+]
 
 [tool.coverage.report]
 fail_under = 85

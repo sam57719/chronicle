@@ -20,6 +20,7 @@ dev = [
     "pytest>=9.0.2",
     "pytest-cov>=7.0.0",
     "ruff>=0.14.9",
+    "setuptools-scm>=10.0.5",
 ]
 
 [project.entry-points."setuptools_scm.version_scheme"]
@@ -29,20 +30,8 @@ menagerist_calver = "menagerist_versioning:menagerist_calver"
 mypy_path = "src"
 files = ["src/menagerist_versioning", "tests"]
 
-[tool.pytest.ini_options]
-asyncio_mode = "auto"
-asyncio_default_fixture_loop_scope = "function"
-pythonpath = ["src"]
-testpaths = ["tests"]
-addopts = [
-    "--cov=src/menagerist_versioning",
-    "--cov-report=term-missing",
-    "--strict-markers",
-    "--tb=short",
-]
-markers = [
-    "unit: fast, no infrastructure",
-]
+[tool.ruff.lint.isort]
+known-first-party = ["menagerist_versioning"]
 
 [tool.coverage.run]
 source = ["src/menagerist_versioning"]

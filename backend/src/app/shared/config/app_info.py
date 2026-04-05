@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from importlib.metadata import PackageNotFoundError, metadata
+from typing import Annotated
 
 from pydantic import BaseModel, ConfigDict, Field
 from pydantic_settings import (
@@ -17,7 +18,7 @@ class LicenseInfo(BaseModel):
     """API licence information."""
 
     name: str = ""
-    url: str = ""
+    url: str | None = None
 
 
 class _MenageristToolConfig(BaseSettings):
@@ -26,9 +27,10 @@ class _MenageristToolConfig(BaseSettings):
     model_config = SettingsConfigDict(
         frozen=True,
         pyproject_toml_table_header=("tool", "menagerist"),
+        populate_by_name=True,
     )
 
-    display_name: str = Field(alias="display-name")
+    display_name: Annotated[str, Field(alias="display-name")] = "Menagerist"
 
     @classmethod
     def settings_customise_sources(
@@ -70,7 +72,7 @@ class ApplicationInfo(BaseModel):
                 description=meta["Summary"] or "",
                 license=LicenseInfo(
                     name=meta["License-Expression"],
-                    url=urls.get("License", ""),
+                    url=urls.get("License", None),
                 ),
             )
         except PackageNotFoundError:

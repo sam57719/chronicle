@@ -60,11 +60,11 @@ class TestNoTag:
     """Behaviour when no tag exists."""
 
     def test_no_tag_returns_dev_version(self, freeze_date: MagicMock) -> None:
-        result = menagerist_calver(make_version(tag=None, distance=5))
+        result = menagerist_calver(make_version(distance=5))
         assert result == "2026.04.0.dev5"
 
     def test_no_tag_zero_distance(self, freeze_date: MagicMock) -> None:
-        result = menagerist_calver(make_version(tag=None, distance=0))
+        result = menagerist_calver(make_version())
         assert result == "2026.04.0.dev0"
 
 
@@ -72,27 +72,19 @@ class TestCleanTag:
     """Behaviour on a clean-tagged commit."""
 
     def test_clean_tag_returns_exact_version(self, freeze_date: MagicMock) -> None:
-        result = menagerist_calver(
-            make_version(tag="2026.04.0", distance=0, dirty=False)
-        )
+        result = menagerist_calver(make_version(tag="2026.04.0"))
         assert result == "2026.04.0"
 
     def test_clean_tag_patch_one(self, freeze_date: MagicMock) -> None:
-        result = menagerist_calver(
-            make_version(tag="2026.04.1", distance=0, dirty=False)
-        )
+        result = menagerist_calver(make_version(tag="2026.04.1"))
         assert result == "2026.04.1"
 
     def test_dirty_tag_is_not_clean(self, freeze_date: MagicMock) -> None:
-        result = menagerist_calver(
-            make_version(tag="2026.04.0", distance=0, dirty=True)
-        )
+        result = menagerist_calver(make_version(tag="2026.04.0", dirty=True))
         assert result != "2026.04.0"
 
     def test_nonzero_distance_is_not_clean(self, freeze_date: MagicMock) -> None:
-        result = menagerist_calver(
-            make_version(tag="2026.04.0", distance=1, dirty=False)
-        )
+        result = menagerist_calver(make_version(tag="2026.04.0", distance=1))
         assert result != "2026.04.0"
 
 
@@ -130,9 +122,7 @@ class TestVPrefix:
     """Behaviour with v-prefixed tags."""
 
     def test_v_prefix_is_stripped(self, freeze_date: MagicMock) -> None:
-        result = menagerist_calver(
-            make_version(tag="v2026.04.0", distance=0, dirty=False)
-        )
+        result = menagerist_calver(make_version(tag="v2026.04.0"))
         assert result == "2026.04.0"
 
     def test_v_prefix_dev(self, freeze_date: MagicMock) -> None:
@@ -160,9 +150,9 @@ class TestMonthPadding:
     """Ensure the month is always zero-padded."""
 
     def test_single_digit_month_is_padded(self, freeze_date_january: MagicMock) -> None:
-        result = menagerist_calver(make_version(tag=None, distance=1))
+        result = menagerist_calver(make_version(distance=1))
         assert result == "2026.01.0.dev1"
 
     def test_double_digit_month_unchanged(self, freeze_date: MagicMock) -> None:
-        result = menagerist_calver(make_version(tag=None, distance=1))
+        result = menagerist_calver(make_version(distance=1))
         assert result == "2026.04.0.dev1"

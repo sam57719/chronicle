@@ -8,7 +8,6 @@ ENV UV_COMPILE_BYTECODE=1 \
     PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1
 
-# Install git before Python — better layer caching
 RUN apt-get update \
     && apt-get install -y --no-install-recommends git \
     && apt-get clean \
@@ -18,24 +17,19 @@ RUN uv python install
 
 WORKDIR /app
 
-# Copy versioning package — relative to build context (repo root)
-COPY versioning/ /versioning/
+# Copy entire workspace structure — uv needs it to resolve members
+COPY pyproject.toml uv.lock ./
+COPY backend/ ./backend/
+COPY versioning/ ./versioning/
 
-# Install dependencies — separate from project for better layer caching
-COPY backend/pyproject.toml backend/uv.lock ./
-RUN --mount=type=cache,target=/root/.cache/uv \
-    uv sync --frozen --no-install-project --no-dev --no-editable --no-install-workspace
-
-# Install project
-COPY backend/src/ src/
+# Install all workspace dependencies and project
 RUN --mount=type=cache,target=/root/.cache/uv \
     --mount=type=bind,source=.git,target=/app/.git \
-    uv pip install . --no-deps --compile
+    uv sync --frozen --no-dev --no-editable --package menagerist
 
 # Cleanup
 RUN find /app/.venv -type d -name "__pycache__" -exec rm -rf {} + \
     && find /app/.venv -type d -name "tests" -exec rm -rf {} + \
-    && find /app/.venv -type d -name "*.dist-info" ! -name "menagerist-*.dist-info" -exec rm -rf {} + \
     && find /app/.venv -name "*.pyi" -delete \
     && find /app/.venv -name "*.pyx" -delete \
     && rm -rf \
@@ -51,13 +45,11 @@ FROM gcr.io/distroless/cc-debian13
 
 WORKDIR /app
 
-# Copy Python, venv, source, metadata
 COPY --from=builder --chown=nonroot:nonroot /python /python
 COPY --from=builder --chown=nonroot:nonroot /app/.venv /app/.venv
-COPY --from=builder --chown=nonroot:nonroot /app/src /app/src
-COPY --from=builder --chown=nonroot:nonroot /app/pyproject.toml /app/
+COPY --from=builder --chown=nonroot:nonroot /app/backend/src /app/src
+COPY --from=builder --chown=nonroot:nonroot /app/backend/pyproject.toml /app/backend/
 
-# Switch to non-root user — after COPY to avoid permission issues
 USER nonroot:nonroot
 
 ENV PATH="/app/.venv/bin:$PATH" \
