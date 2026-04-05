@@ -28,5 +28,6 @@ repos:
         args: [--config-file=backend/pyproject.toml]
         additional_dependencies:
           - pydantic
+          - pydantic-settings
           - sqlalchemy[mypy]
         files: ^backend/
