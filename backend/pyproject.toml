@@ -44,9 +44,6 @@ search_parent_directories = true
 version_scheme = "menagerist_calver"
 local_scheme = "no-local-version"
 
-[tool.hatch.build.hooks.vcs]
-version-file = "src/app/_version.py"
-
 [tool.mypy]
 python_version = "3.14"
 strict = true
