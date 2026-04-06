@@ -72,7 +72,7 @@ class ApplicationInfo(BaseModel):
                 description=meta["Summary"] or "",
                 license=LicenseInfo(
                     name=meta["License-Expression"],
-                    url=urls.get("License", None),
+                    url=urls.get("License"),
                 ),
             )
         except PackageNotFoundError:

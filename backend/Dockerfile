@@ -17,15 +17,18 @@ RUN uv python install
 
 WORKDIR /app
 
-# Copy entire workspace structure — uv needs it to resolve members
-COPY pyproject.toml uv.lock ./
-COPY backend/ ./backend/
-COPY versioning/ ./versioning/
+# Copy lockfile and pyproject first for dependency caching
+COPY backend/pyproject.toml backend/uv.lock ./
 
-# Install all workspace dependencies and project
+# Install dependencies only — not the project itself
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv sync --frozen --no-install-project --no-dev --no-editable
+
+# Copy source and install project with git mounted for hatch-vcs
+COPY backend/src/ src/
 RUN --mount=type=cache,target=/root/.cache/uv \
     --mount=type=bind,source=.git,target=/app/.git \
-    uv sync --frozen --no-dev --no-editable --package menagerist
+    uv sync --frozen --no-dev --no-editable
 
 # Cleanup
 RUN find /app/.venv -type d -name "__pycache__" -exec rm -rf {} + \
@@ -47,8 +50,8 @@ WORKDIR /app
 
 COPY --from=builder --chown=nonroot:nonroot /python /python
 COPY --from=builder --chown=nonroot:nonroot /app/.venv /app/.venv
-COPY --from=builder --chown=nonroot:nonroot /app/backend/src /app/src
-COPY --from=builder --chown=nonroot:nonroot /app/backend/pyproject.toml /app/backend/
+COPY --from=builder --chown=nonroot:nonroot /app/src /app/src
+COPY --from=builder --chown=nonroot:nonroot /app/pyproject.toml /app/
 
 USER nonroot:nonroot
 

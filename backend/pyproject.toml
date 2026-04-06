@@ -2,17 +2,26 @@
 name = "menagerist"
 dynamic = ["version"]
 description = "A lightweight, self-hostable personal knowledge graph for collectors."
-authors = [{ name = "Sam Cork" }]
-maintainers = [{ name = "Sam Cork" }]
+
+authors = [
+    { name = "Sam Cork" }
+]
+
+maintainers = [
+    { name = "Sam Cork" }
+]
+
 license = "Apache-2.0"
-license-files = ["LICENSE"]
+license-files = [
+    "LICENSE"
+]
+
 requires-python = ">=3.14"
 dependencies = [
     "alembic>=1.17.2",
     "asyncpg>=0.31.0",
     "fastapi>=0.124.4",
     "granian>=2.7.0",
-    "pydantic>=2.12.5",
     "pydantic-settings>=2.12.0",
     "sqlalchemy[asyncio]>=2.0.45",
 ]
@@ -36,11 +45,13 @@ License = "https://github.com/samcorky/menagerist/blob/main/LICENSE"
 [tool.menagerist]
 display-name = "Menagerist"
 
-[tool.uv.sources]
-menagerist-versioning = { workspace = true }
-
 [build-system]
-requires = ["hatchling>=1.27.0", "hatch-vcs>=0.4.0", "menagerist-versioning>=1.0.0"]
+requires = [
+    "hatchling>=1.27.0",
+    "hatch-vcs>=0.4.0",
+    "scm-calver-config @ git+https://github.com/samcorky/scm-calver-config@main"
+]
+
 build-backend = "hatchling.build"
 
 [tool.hatch.version]
@@ -51,24 +62,119 @@ packages = ["src/app"]
 
 [tool.hatch.version.raw-options]
 search_parent_directories = true
-version_scheme = "menagerist_calver"
+version_scheme = "calver-scm"
 local_scheme = "no-local-version"
 
 [tool.mypy]
+python_version = "3.14"
+strict = true
+ignore_missing_imports = true
+warn_unused_ignores = true
+warn_return_any = true
+show_error_codes = true
+explicit_package_bases = true
+namespace_packages = true
 mypy_path = "src"
 files = ["src/app", "tests"]
+plugins = ["pydantic.mypy"]
 
 [[tool.mypy.overrides]]
 module = ["granian.*"]
 ignore_missing_imports = true
 
+[tool.ruff]
+fix = true
+target-version = "py314"
+line-length = 88
+
+[tool.ruff.lint]
+select = [
+    "E",      # pycodestyle errors
+    "W",      # pycodestyle warnings
+    "F",      # pyflakes
+    "I",      # isort
+    "UP",     # pyupgrade
+    "B",      # flake8-bugbear
+    "C4",     # flake8-comprehensions
+    "N",      # pep8-naming
+    "SIM",    # flake8-simplify
+    "TCH",    # flake8-type-checking
+    "D",      # pydocstyle — replaces pydocstyle tool
+    "RUF",    # ruff-specific rules
+    "PT",     # flake8-pytest-style
+    "ANN",    # flake8-annotations
+]
+ignore = [
+    # formatter conflicts per https://docs.astral.sh/ruff/formatter/#conflicting-lint-rules
+    "W191",   # tab-indentation
+    "E111",   # indentation-with-invalid-multiple
+    "E114",   # indentation-with-invalid-multiple-comment
+    "E117",   # over-indented
+    "D206",   # docstring-tab-indentation
+    "D300",   # triple-single-quotes
+    "Q000",   # bad-quotes-inline-string
+    "Q001",   # bad-quotes-multiline-string
+    "Q002",   # bad-quotes-docstring
+    "Q003",   # avoidable-escaped-quote
+    "Q004",   # unnecessary-escaped-quote
+    "COM812", # missing-trailing-comma
+    "COM819", # prohibited-trailing-comma
+    "ISC002", # multi-line-implicit-string-concatenation
+    # project-specific
+    "B008",   # FastAPI Depends() in defaults
+    "D100",   # missing docstring in public module
+    "D104",   # missing docstring in public package
+    "D107",   # missing docstring in __init__
+]
+fixable = ["ALL"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
 [tool.ruff.lint.isort]
 known-first-party = ["app"]
+section-order = ["future", "standard-library", "third-party", "first-party", "local-folder"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["ANN", "D", "PT"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+docstring-code-format = true
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+pythonpath = ["src"]
+testpaths = ["tests"]
+addopts = [
+    "--cov=src/app",
+    "--cov-report=term-missing",
+    "--strict-markers",
+    "--tb=short",
+]
+markers = [
+    "unit: fast, no infrastructure",
+    "integration: requires database",
+    "e2e: full stack",
+]
 
 [tool.coverage.run]
 source = ["src/app"]
 omit = [
     "tests/*",
     "**/__init__.py",
+    "src/app/_version.py",
     "src/app/migrations/*",
+]
+
+[tool.coverage.report]
+fail_under = 85
+show_missing = true
+exclude_lines = [
+    "pragma: no cover",
+    "if TYPE_CHECKING:",
+    "raise NotImplementedError",
+    "@abstractmethod",
 ]
