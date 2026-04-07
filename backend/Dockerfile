@@ -17,30 +17,32 @@ RUN uv python install
 
 WORKDIR /app
 
-# Copy lockfile and pyproject first for dependency caching
 COPY backend/pyproject.toml backend/uv.lock ./
 
-# Install dependencies only — not the project itself
 RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync --frozen --no-install-project --no-dev --no-editable
 
-# Copy source and install project with git mounted for hatch-vcs
 COPY backend/src/ src/
+
 RUN --mount=type=cache,target=/root/.cache/uv \
     --mount=type=bind,source=.git,target=/app/.git \
-    uv sync --frozen --no-dev --no-editable
+    uv pip install --no-deps --editable .
 
-# Cleanup
 RUN find /app/.venv -type d -name "__pycache__" -exec rm -rf {} + \
     && find /app/.venv -type d -name "tests" -exec rm -rf {} + \
     && find /app/.venv -name "*.pyi" -delete \
     && find /app/.venv -name "*.pyx" -delete \
+    && find /app/.venv -name "*.a" -delete \
+    && find /app/.venv -name "*.so.debug" -delete \
+    && find /app/.venv -type d -name "*.dist-info" ! -name "menagerist-*.dist-info" -exec rm -rf {} + \
     && rm -rf \
        /python/lib/python3.14/test \
        /python/lib/python3.14/ensurepip \
        /python/lib/python3.14/idle* \
        /python/lib/python3.14/tkinter \
-       /python/lib/python3.14/site-packages/pip
+       /python/lib/python3.14/lib2to3 \
+       /python/lib/python3.14/site-packages/pip \
+       /root/.cache
 
 
 ## ------------------------------- Runtime Stage ------------------------------- ##
