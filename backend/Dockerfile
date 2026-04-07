@@ -44,7 +44,7 @@ RUN find /app/.venv -type d -name "__pycache__" -exec rm -rf {} + \
 
 
 ## ------------------------------- Runtime Stage ------------------------------- ##
-FROM gcr.io/distroless/cc-debian13
+FROM gcr.io/distroless/cc-debian13 AS runtime
 
 WORKDIR /app
 
