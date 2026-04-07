@@ -2,7 +2,7 @@
 FROM ghcr.io/astral-sh/uv:0.9.25-python3.14-bookworm-slim AS builder
 
 ENV UV_COMPILE_BYTECODE=1 \
-    UV_LINK_MODE=copy \
+    UV_LINK_MODE=hardlink \
     UV_PYTHON_INSTALL_DIR=/python \
     UV_PYTHON_PREFERENCE=only-managed \
     PYTHONDONTWRITEBYTECODE=1 \
