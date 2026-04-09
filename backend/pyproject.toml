@@ -49,7 +49,7 @@ display-name = "Menagerist"
 requires = [
     "hatchling>=1.27.0",
     "hatch-vcs>=0.4.0",
-    "scm-calver-config @ git+https://github.com/samcorky/scm-calver-config@main"
+    "calver-scm>=1.0.0"
 ]
 
 build-backend = "hatchling.build"
