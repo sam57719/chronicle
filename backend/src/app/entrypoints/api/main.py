@@ -21,6 +21,7 @@ def create_app() -> FastAPI:
         license_info=settings.app.license.model_dump(),
         docs_url=f"{API_PREFIX}/docs",
         openapi_url=f"{API_PREFIX}/openapi.json",
+        redoc_url=None,
     )
 
     fastapi_app.include_router(system_router, prefix=API_PREFIX)
