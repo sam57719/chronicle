@@ -49,7 +49,7 @@ display-name = "Menagerist"
 requires = [
     "hatchling>=1.27.0",
     "hatch-vcs>=0.4.0",
-    "calver-scm>=1.0.0"
+    "calver-scm>=1.2.0"
 ]
 
 build-backend = "hatchling.build"
@@ -64,6 +64,10 @@ packages = ["src/app"]
 search_parent_directories = true
 version_scheme = "calver-scm"
 local_scheme = "no-local-version"
+
+[tool.uv]
+required-version = ">=0.11.6"
+cache-keys = [{ file = "pyproject.toml" }, { git = { commit = true, tags = true }}, { dir = "src" }]
 
 [tool.mypy]
 python_version = "3.14"
@@ -158,6 +162,7 @@ markers = [
     "unit: fast, no infrastructure",
     "integration: requires database",
     "e2e: full stack",
+    "architecture: tests for architectural rules",
 ]
 
 [tool.coverage.run]
@@ -165,8 +170,6 @@ source = ["src/app"]
 omit = [
     "tests/*",
     "**/__init__.py",
-    "src/app/_version.py",
-    "src/app/migrations/*",
 ]
 
 [tool.coverage.report]
