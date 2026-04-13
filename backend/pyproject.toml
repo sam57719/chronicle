@@ -24,6 +24,7 @@ dependencies = [
     "granian>=2.7.0",
     "pydantic-settings>=2.12.0",
     "sqlalchemy[asyncio]>=2.0.45",
+    "structlog>=25.5.0",
 ]
 
 [dependency-groups]
