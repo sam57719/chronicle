@@ -16,7 +16,7 @@ async def apply_app_response_headers(
     settings: Settings = get_settings()
 
     response: Response = await call_next(request)
-    response.headers["X-Application-Name"] = settings.app.display_name
-    response.headers["X-Application-Version"] = settings.app.version
+    response.headers["Application-Name"] = settings.app.display_name
+    response.headers["Application-Version"] = settings.app.version
 
     return response
