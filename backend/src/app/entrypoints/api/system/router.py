@@ -26,10 +26,10 @@ async def health_check() -> HealthCheckResponse:
     "/version",
     response_model=VersionResponse,
     summary="Application version",
-    description="Return the packaged application version.",
+    description="Get the packaged application version.",
     status_code=HTTPStatus.OK,
     response_description="Application version",
 )
 async def version(settings: Settings = Depends(get_settings)) -> VersionResponse:
-    """Return the packaged application version."""
+    """Get the packaged application version."""
     return VersionResponse(version=settings.app.version)
