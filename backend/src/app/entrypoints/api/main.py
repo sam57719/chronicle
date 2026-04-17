@@ -1,7 +1,14 @@
 """Main module for the API."""
 
+from contextlib import asynccontextmanager
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from collections.abc import AsyncGenerator
+
 from fastapi import FastAPI
 
+from app.shared import bootstrap
 from app.shared.config import Settings, get_settings
 
 from .middlewares import access_log_middleware
@@ -10,6 +17,21 @@ from .system.router import router as system_router
 from .v1.router import v1_router
 
 API_PREFIX = "/api"
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI) -> AsyncGenerator[None]:
+    """Application lifespan hook.
+
+    The bootstrap startup/shutdown functions are asynchronous, so we must
+    await them here. The function is an async generator decorated with
+    `asynccontextmanager` which matches FastAPI's expected `lifespan` type.
+    """
+    await bootstrap.startup()
+    try:
+        yield
+    finally:
+        await bootstrap.shutdown()
 
 
 def create_app() -> FastAPI:
@@ -24,6 +46,7 @@ def create_app() -> FastAPI:
         docs_url=f"{API_PREFIX}/docs",
         openapi_url=f"{API_PREFIX}/openapi.json",
         redoc_url=None,
+        lifespan=lifespan,
     )
 
     fastapi_app.include_router(system_router, prefix=API_PREFIX)
