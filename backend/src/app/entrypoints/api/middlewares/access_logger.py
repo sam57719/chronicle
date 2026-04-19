@@ -30,7 +30,7 @@ async def access_log_middleware(
     try:
         response = await call_next(request)
     except Exception as exc:
-        logger.exception("http.request.exception", exc_info=exc, stack_info=True)
+        await logger.aexception("http.request.exception", exc_info=exc, stack_info=True)
         raise
     finally:
         duration_ms = (time.perf_counter() - start) * 1000
@@ -51,6 +51,6 @@ async def access_log_middleware(
             # noinspection PyUnboundLocalVariable
             data["status_code"] = response.status_code
 
-        logger.info("http.request", **data)
+        await logger.ainfo("http.request", **data)
 
     return response

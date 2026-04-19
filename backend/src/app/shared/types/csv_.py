@@ -6,7 +6,7 @@ from pydantic_settings import NoDecode
 
 def _split_csv(v: object) -> list[str] | object:
     if isinstance(v, str):
-        return [item.strip() for item in v.split(",")]
+        return [item.strip() for item in v.split(",") if item.strip()]
     return v
 
 
