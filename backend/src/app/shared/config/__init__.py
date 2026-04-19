@@ -3,6 +3,7 @@ from functools import lru_cache
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
+from app.shared.config.api import APISettings
 from app.shared.config.app_info import ApplicationInfo
 from app.shared.config.logging_ import LoggingSettings
 
@@ -24,6 +25,7 @@ class Settings(BaseSettings):
 
     app: ApplicationInfo = Field(default_factory=ApplicationInfo.from_package)
     logging: LoggingSettings = Field(default_factory=LoggingSettings)
+    api: APISettings = Field(default_factory=APISettings)
 
 
 @lru_cache

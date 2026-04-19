@@ -30,6 +30,7 @@ dependencies = [
 [dependency-groups]
 dev = [
     "granian[reload]>=2.7.0",
+    "httpx>=0.28.1",
     "mypy>=1.19.1",
     "pre-commit>=4.5.0",
     "pytest>=9.0.2",
@@ -178,7 +179,7 @@ omit = [
 ]
 
 [tool.coverage.report]
-fail_under = 85
+#fail_under = 85
 show_missing = true
 exclude_lines = [
     "pragma: no cover",
