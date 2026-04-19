@@ -27,11 +27,13 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None]:
     await them here. The function is an async generator decorated with
     `asynccontextmanager` which matches FastAPI's expected `lifespan` type.
     """
-    await bootstrap.startup()
+    settings: Settings = get_settings()
+
+    await bootstrap.startup(settings)
     try:
         yield
     finally:
-        await bootstrap.shutdown()
+        await bootstrap.shutdown(settings)
 
 
 def create_app() -> FastAPI:

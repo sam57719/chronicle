@@ -4,6 +4,7 @@ from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 from app.shared.config.app_info import ApplicationInfo
+from app.shared.config.logging_ import LoggingSettings
 
 __all__ = ["Settings", "get_settings"]
 
@@ -16,11 +17,13 @@ class Settings(BaseSettings):
         env_file_encoding="utf-8",
         env_nested_delimiter="__",
         env_prefix="MG_",
+        env_parse_enums=True,
         case_sensitive=False,
         extra="ignore",
     )
 
     app: ApplicationInfo = Field(default_factory=ApplicationInfo.from_package)
+    logging: LoggingSettings = Field(default_factory=LoggingSettings)
 
 
 @lru_cache

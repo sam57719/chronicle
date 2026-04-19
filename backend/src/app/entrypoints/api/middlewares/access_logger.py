@@ -35,7 +35,8 @@ async def access_log_middleware(
     finally:
         duration_ms = (time.perf_counter() - start) * 1000
 
-        client = request.client.host if request.client else "-"
+        # noinspection PyUnresolvedReferences
+        client = request.client.host if request.client else None
 
         data = {
             "path": request.url.path,
@@ -47,6 +48,7 @@ async def access_log_middleware(
             data["query"] = str(request.query_params)
 
         if "response" in locals():
+            # noinspection PyUnboundLocalVariable
             data["status_code"] = response.status_code
 
         logger.info("http.request", **data)
