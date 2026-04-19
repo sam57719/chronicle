@@ -1,0 +1,49 @@
+name: Lint
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - ".github/workflows/lint.yml"
+      - ".pre-commit-config.yaml"
+      - "_typos.toml"
+      - "backend/pyproject.toml"
+      - "backend/uv.lock"
+      - "backend/src/**"
+      - "backend/tests/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    name: Ruff + Mypy + Typos
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: backend
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v8.0.0
+        with:
+          enable-cache: true
+
+      - name: Set up Python
+        run: uv python install
+
+      - name: Install dependencies
+        run: uv sync --frozen --dev
+
+      - name: Run Ruff lint
+        run: uv run ruff check .
+
+      - name: Run Mypy
+        run: uv run mypy .
+
+      - name: Run Typos
+        run: uv run pre-commit run typos --all-files
