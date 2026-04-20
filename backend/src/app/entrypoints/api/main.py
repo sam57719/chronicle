@@ -3,18 +3,21 @@
 from contextlib import asynccontextmanager
 from typing import TYPE_CHECKING
 
-if TYPE_CHECKING:
-    from collections.abc import AsyncGenerator
-
 from fastapi import FastAPI
 
 from app.shared import bootstrap
 from app.shared.config import Settings, get_settings
 
-from .middlewares import access_log_middleware
-from .middlewares.app_headers import apply_app_response_headers
+from .middlewares import (
+    access_log_middleware,
+    app_response_headers_middleware,
+    request_id_middleware,
+)
 from .system.router import router as system_router
 from .v1.router import v1_router
+
+if TYPE_CHECKING:
+    from collections.abc import AsyncGenerator
 
 API_PREFIX = "/api"
 
@@ -54,8 +57,13 @@ def create_app() -> FastAPI:
     fastapi_app.include_router(system_router, prefix=API_PREFIX)
     fastapi_app.include_router(v1_router, prefix=API_PREFIX)
 
-    fastapi_app.middleware("http")(access_log_middleware)
-    fastapi_app.middleware("http")(apply_app_response_headers)
+    if settings.api.access_log_enabled:
+        fastapi_app.middleware("http")(access_log_middleware)
+
+    fastapi_app.middleware("http")(app_response_headers_middleware)
+
+    # Ensure that the request id middleware is bound last
+    fastapi_app.middleware("http")(request_id_middleware)
 
     fastapi_app.openapi_tags = [
         {"name": "System", "description": "System related endpoints"},

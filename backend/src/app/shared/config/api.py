@@ -16,3 +16,4 @@ class APISettings(BaseSettings):
     )
 
     trusted_hosts: Literal["*"] | CSV[ValidatedNetworkHostStr] = Field("*")
+    access_log_enabled: bool = True

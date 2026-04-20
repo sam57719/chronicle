@@ -1,5 +1,6 @@
 from http import HTTPStatus
 
+import structlog
 from fastapi import APIRouter, Depends
 
 from app.shared.config import Settings, get_settings
@@ -7,6 +8,8 @@ from app.shared.config import Settings, get_settings
 from .schemas import HealthCheckResponse, VersionResponse
 
 router: APIRouter = APIRouter(tags=["System"])
+
+logger = structlog.get_logger(__name__)
 
 
 @router.get(

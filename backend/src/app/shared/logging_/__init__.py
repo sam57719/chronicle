@@ -68,5 +68,5 @@ def configure_logging(
     structlog.configure(
         wrapper_class=wrapper_class,
         processors=processors,
-        cache_logger_on_first_use=True,
+        cache_logger_on_first_use=False,
     )

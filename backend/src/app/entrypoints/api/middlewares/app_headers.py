@@ -8,7 +8,7 @@ if TYPE_CHECKING:
     from starlette.responses import Response
 
 
-async def apply_app_response_headers(
+async def app_response_headers_middleware(
     request: Request,
     call_next: RequestResponseEndpoint,
 ) -> Response:
