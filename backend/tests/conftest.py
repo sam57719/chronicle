@@ -10,6 +10,13 @@ if TYPE_CHECKING:
     from app.shared.config.app_info import ApplicationInfo
 
 
+def pytest_configure() -> None:
+    """Disable loading the local .env during test runs."""
+    from app.shared.config import Settings
+
+    Settings.model_config["env_file"] = None
+
+
 @pytest.fixture(autouse=True)
 def clear_config_cache() -> Generator[None]:
     """Clear cached config reads between tests for deterministic behaviour."""
