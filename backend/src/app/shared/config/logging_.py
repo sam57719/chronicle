@@ -16,8 +16,8 @@ class LogLevel(StrEnum):
 class LoggingMode(StrEnum):
     """Logging modes."""
 
-    HUMAN = "human"
-    JSON = "json"
+    HUMAN = "HUMAN"
+    JSON = "JSON"
 
 
 class LoggingSettings(BaseSettings):

@@ -113,6 +113,7 @@ select = [
     "RUF",    # ruff-specific rules
     "PT",     # flake8-pytest-style
     "ANN",    # flake8-annotations
+    "C901"     # flake8-cognitive-complexity
 ]
 ignore = [
     # formatter conflicts per https://docs.astral.sh/ruff/formatter/#conflicting-lint-rules
@@ -146,7 +147,10 @@ known-first-party = ["app"]
 section-order = ["future", "standard-library", "third-party", "first-party", "local-folder"]
 
 [tool.ruff.lint.per-file-ignores]
-"tests/**" = ["ANN", "D", "PT"]
+"tests/**" = ["ANN", "D", "PT", "C901"]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 8
 
 [tool.ruff.format]
 quote-style = "double"
@@ -177,6 +181,7 @@ omit = [
     "tests/*",
     "**/__init__.py",
 ]
+branch = true
 
 [tool.coverage.report]
 #fail_under = 85
