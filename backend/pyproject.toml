@@ -113,7 +113,8 @@ select = [
     "RUF",    # ruff-specific rules
     "PT",     # flake8-pytest-style
     "ANN",    # flake8-annotations
-    "C901"     # flake8-cognitive-complexity
+    "C901",     # flake8-cognitive-complexity
+    "TID252",    # relative-imports
 ]
 ignore = [
     # formatter conflicts per https://docs.astral.sh/ruff/formatter/#conflicting-lint-rules
