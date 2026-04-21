@@ -5,9 +5,9 @@ from typing import TYPE_CHECKING
 
 from fastapi import FastAPI
 
-from app.shared import bootstrap
 from app.shared.config import Settings, get_settings
 
+from ...infrastructure.wiring import bootstrap
 from .middlewares import (
     access_log_middleware,
     app_response_headers_middleware,
