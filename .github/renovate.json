@@ -20,7 +20,7 @@
   "enabledManagers": [
     "pep621",
     "github-actions",
-    "regex"
+    "custom.regex"
   ],
   "customManagers": [
     {
