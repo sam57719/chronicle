@@ -33,12 +33,18 @@
   },
   "packageRules": [
     {
-      "matchManagers": ["pep621"],
+      "matchManagers": [
+        "pep621"
+      ],
       "rangeStrategy": "pin"
     },
     {
-      "matchManagers": ["pep621"],
-      "matchDepNames": ["python"],
+      "matchManagers": [
+        "pep621"
+      ],
+      "matchDepNames": [
+        "python"
+      ],
       "rangeStrategy": "replace"
     },
     {
