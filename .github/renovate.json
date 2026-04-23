@@ -25,8 +25,12 @@
   "customManagers": [
     {
       "customType": "regex",
-      "managerFilePatterns": ["backend/pyproject.toml"],
-      "matchStrings": ["\\[tool\\.uv\\][\\s\\S]*?required-version = \">=(?<currentValue>[^\"]+)\""],
+      "managerFilePatterns": [
+        "backend/pyproject.toml"
+      ],
+      "matchStrings": [
+        "\\[tool\\.uv\\][\\s\\S]*?required-version = \">=(?<currentValue>[^\"]+)\""
+      ],
       "depNameTemplate": "astral-sh/uv",
       "datasourceTemplate": "github-releases",
       "versioningTemplate": "semver"
