@@ -19,7 +19,18 @@
   ],
   "enabledManagers": [
     "pep621",
-    "github-actions"
+    "github-actions",
+    "regex"
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["backend/pyproject.toml"],
+      "matchStrings": ["\\[tool\\.uv\\][\\s\\S]*?required-version = \">=(?<currentValue>[^\"]+)\""],
+      "depNameTemplate": "astral-sh/uv",
+      "datasourceTemplate": "github-releases",
+      "versioningTemplate": "semver"
+    }
   ],
   "prHourlyLimit": 5,
   "prConcurrentLimit": 5,
