@@ -28,7 +28,25 @@
   ],
   "timezone": "Europe/London",
   "pruneStaleBranches": true,
+  "vulnerabilityAlerts": {
+    "enabled": true
+  },
   "packageRules": [
+    {
+      "matchManagers": [
+        "pep621"
+      ],
+      "rangeStrategy": "pin"
+    },
+    {
+      "matchManagers": [
+        "pep621"
+      ],
+      "matchDepNames": [
+        "python"
+      ],
+      "rangeStrategy": "replace"
+    },
     {
       "matchManagers": [
         "pep621"
@@ -41,6 +59,7 @@
         "patch"
       ],
       "groupName": "runtime dependencies",
+      "minimumReleaseAge": "3 days",
       "commitMessageAction": "Update",
       "commitMessageTopic": "runtime deps",
       "commitMessageExtra": "{{depName}} to {{newVersion}}"
