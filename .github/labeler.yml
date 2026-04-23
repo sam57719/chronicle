@@ -2,29 +2,25 @@ area/source:
   - changed-files:
       - any-glob-to-any-file:
           - "backend/src/**"
-
 area/tests:
   - changed-files:
       - any-glob-to-any-file:
           - "backend/tests/**"
-
 area/ci:
   - changed-files:
       - any-glob-to-any-file:
           - ".github/workflows/**"
+          - ".github/renovate.json"
           - ".pre-commit-config.yaml"
-
 documentation:
   - changed-files:
       - any-glob-to-any-file:
-          - "README.md"
-
+          - "**/README.md"
 dependencies:
   - changed-files:
       - any-glob-to-any-file:
           - "backend/pyproject.toml"
           - "backend/uv.lock"
-
 area/packaging:
   - changed-files:
       - any-glob-to-any-file:
