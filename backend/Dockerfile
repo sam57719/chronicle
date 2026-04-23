@@ -1,5 +1,5 @@
 ## ------------------------------- Builder Stage ------------------------------- ##
-FROM ghcr.io/astral-sh/uv:0.11.6-python3.14-trixie-slim AS builder
+FROM ghcr.io/astral-sh/uv:0.11.7-python3.14-trixie-slim AS builder
 
 # Build-time args for reproducibility / overrides
 ARG UV_LINK_MODE=copy
