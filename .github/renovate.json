@@ -77,13 +77,13 @@
       "matchManagers": [
         "dockerfile"
       ],
-      "excludeDepNames": [
-        "ghcr.io/astral-sh/uv"
-      ],
       "groupName": "Docker base images",
       "commitMessageAction": "Update",
       "commitMessageTopic": "base image",
-      "commitMessageExtra": "{{depName}} to {{newVersion}}"
+      "commitMessageExtra": "{{depName}} to {{newVersion}}",
+      "matchDepNames": [
+        "!ghcr.io/astral-sh/uv"
+      ]
     },
     {
       "matchManagers": [
