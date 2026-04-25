@@ -108,6 +108,9 @@
       "matchDepTypes": [
         "project.dependencies"
       ],
+      "matchDepNames": [
+        "!granian"
+      ],
       "matchUpdateTypes": [
         "minor",
         "patch"
@@ -140,6 +143,9 @@
       ],
       "matchDepTypes": [
         "dependency-groups"
+      ],
+      "matchDepNames": [
+        "!granian"
       ],
       "matchUpdateTypes": [
         "minor",
