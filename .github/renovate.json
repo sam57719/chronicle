@@ -75,6 +75,22 @@
     },
     {
       "matchManagers": [
+        "pep621"
+      ],
+      "matchDepNames": [
+        "granian"
+      ],
+      "matchDepTypes": [
+        "project.dependencies",
+        "dependency-groups"
+      ],
+      "groupName": "granian",
+      "commitMessageAction": "Update",
+      "commitMessageTopic": "granian",
+      "commitMessageExtra": "to {{newVersion}}"
+    },
+    {
+      "matchManagers": [
         "dockerfile"
       ],
       "groupName": "Docker base images",
@@ -91,6 +107,9 @@
       ],
       "matchDepTypes": [
         "project.dependencies"
+      ],
+      "matchDepNames": [
+        "!granian"
       ],
       "matchUpdateTypes": [
         "minor",
@@ -124,6 +143,9 @@
       ],
       "matchDepTypes": [
         "dependency-groups"
+      ],
+      "matchDepNames": [
+        "!granian"
       ],
       "matchUpdateTypes": [
         "minor",
