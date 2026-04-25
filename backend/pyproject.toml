@@ -21,7 +21,7 @@ dependencies = [
     "alembic==1.18.4",
     "asyncpg==0.31.0",
     "fastapi==0.136.0",
-    "granian==2.7.3",
+    "granian==2.7.4",
     "pydantic-settings==2.14.0",
     "sqlalchemy[asyncio]==2.0.49",
     "structlog==25.5.0",
@@ -29,7 +29,7 @@ dependencies = [
 
 [dependency-groups]
 dev = [
-    "granian[reload]==2.7.3",
+    "granian[reload]==2.7.4",
     "httpx==0.28.1",
     "mypy==1.20.2",
     "pre-commit==4.6.0",
