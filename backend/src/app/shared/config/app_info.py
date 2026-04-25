@@ -21,16 +21,20 @@ class LicenseInfo(BaseModel):
     url: str | None = None
 
 
+_PACKAGE_NAME = "menagerist"
+_DEFAULT_DISPLAY_NAME = "Menagerist"
+
+
 class _MenageristToolConfig(BaseSettings):
     """Settings from [tool.menagerist] in pyproject.toml."""
 
     model_config = SettingsConfigDict(
         frozen=True,
-        pyproject_toml_table_header=("tool", "menagerist"),
+        pyproject_toml_table_header=("tool", _PACKAGE_NAME),
         populate_by_name=True,
     )
 
-    display_name: Annotated[str, Field(alias="display-name")] = "Menagerist"
+    display_name: Annotated[str, Field(alias="display-name")] = _DEFAULT_DISPLAY_NAME
 
     @classmethod
     def settings_customise_sources(
@@ -50,8 +54,8 @@ class ApplicationInfo(BaseModel):
 
     model_config = ConfigDict(frozen=True)
 
-    name: str = "menagerist"
-    display_name: str = "Menagerist"
+    name: str = _PACKAGE_NAME
+    display_name: str = _DEFAULT_DISPLAY_NAME
     version: str = "0.0.0"
     description: str = ""
     license: LicenseInfo = Field(default_factory=LicenseInfo)
@@ -61,12 +65,12 @@ class ApplicationInfo(BaseModel):
         """Load metadata from the installed package and pyproject.toml."""
         tool = _MenageristToolConfig()
         try:
-            meta = metadata("menagerist")
+            meta = metadata(_PACKAGE_NAME)
             urls = dict(
                 entry.split(", ", 1) for entry in meta.get_all("Project-URL") or []
             )
             return cls(
-                name=meta["Name"] or "menagerist",
+                name=meta["Name"] or _PACKAGE_NAME,
                 display_name=tool.display_name,
                 version=meta["Version"] or "0.0.0",
                 description=meta["Summary"] or "",

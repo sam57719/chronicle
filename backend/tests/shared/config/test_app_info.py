@@ -1,3 +1,8 @@
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import pytest
+
 from app.shared.config.app_info import ApplicationInfo, LicenseInfo
 
 
@@ -28,3 +33,11 @@ def test_application_info_can_override_fields() -> None:
     assert info.description == "Test description"
     assert info.license.name == "MIT"
     assert info.license.url == "https://opensource.org/licenses/MIT"
+
+
+def test_application_info_package_not_found(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setattr(
+        "app.shared.config.app_info._PACKAGE_NAME", "nonexistent_package"
+    )
+    app_info = ApplicationInfo.from_package()
+    assert app_info.name == "menagerist"
