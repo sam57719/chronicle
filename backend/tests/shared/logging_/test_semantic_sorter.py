@@ -1,6 +1,10 @@
 import logging
 
+import pytest
+
 from app.shared.logging_.semantic_sorter import SemanticSorter
+
+pytestmark = pytest.mark.unit
 
 
 def test_semantic_sorter_orders_keys() -> None:

@@ -1,6 +1,10 @@
 from typing import TYPE_CHECKING
 
+import pytest
+
 from app.shared.config import Settings
+
+pytestmark = pytest.mark.unit
 
 if TYPE_CHECKING:
     from collections.abc import Callable

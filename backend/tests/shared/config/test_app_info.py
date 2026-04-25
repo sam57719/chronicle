@@ -1,9 +1,8 @@
-from typing import TYPE_CHECKING
-
-if TYPE_CHECKING:
-    import pytest
+import pytest
 
 from app.shared.config.app_info import ApplicationInfo, LicenseInfo
+
+pytestmark = pytest.mark.unit
 
 
 def test_application_info_defaults() -> None:

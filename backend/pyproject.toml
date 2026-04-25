@@ -132,6 +132,7 @@ ignore = [
     "COM812", # missing-trailing-comma
     "COM819", # prohibited-trailing-comma
     "ISC002", # multi-line-implicit-string-concatenation
+    "TC006",
     # project-specific
     "B008",   # FastAPI Depends() in defaults
     "D100",   # missing docstring in public module
@@ -174,6 +175,7 @@ markers = [
     "integration: requires database",
     "e2e: full stack",
     "architecture: tests for architectural rules",
+    "domain: tests for domain logic",
 ]
 
 [tool.coverage.run]

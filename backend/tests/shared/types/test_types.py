@@ -3,6 +3,8 @@ from pydantic import BaseModel, ValidationError
 
 from app.shared.types import CSV, ValidatedNetworkHostStr  # noqa: TC001
 
+pytestmark = pytest.mark.unit
+
 
 class _CSVModel(BaseModel):
     values: CSV[str]

@@ -2,12 +2,15 @@ import importlib
 import sys
 from typing import TYPE_CHECKING
 
+import pytest
+
 if TYPE_CHECKING:
     from collections.abc import Callable
 
-    import pytest
-
     from app.shared.config import Settings
+
+
+pytestmark = pytest.mark.unit
 
 
 def _prepare_asgi_module(
